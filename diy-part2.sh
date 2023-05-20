@@ -13,5 +13,8 @@
 # Modify default IP
 #sed -i 's/192.168.1.1/192.168.50.5/g' package/base-files/files/bin/config_generate
 
-git apply $GITHUB_WORKSPACE/patches/*.patch
+echo "$(pwd)"
+
+# git apply $GITHUB_WORKSPACE/patches/*.patch
+# error: can't open patch '/home/runner/work/build_openwrt/build_openwrt/patches/*.patch': No such file or directory
 git apply $GITHUB_WORKSPACE/patches/*.diff
