@@ -1,0 +1,71 @@
+From 3f642af82622879648902daa58a2271af864c83d Mon Sep 17 00:00:00 2001
+From: dzw <dzwwgy@163.com>
+Date: Sat, 20 May 2023 10:59:50 +0800
+Subject: [PATCH] 16M
+
+---
+ target/linux/ramips/dts/mt7620a_phicomm_psg1208.dts  | 2 +-
+ target/linux/ramips/dts/mt7620a_phicomm_psg1218.dtsi | 2 +-
+ target/linux/ramips/image/mt7620.mk                  | 6 +++---
+ 3 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/target/linux/ramips/dts/mt7620a_phicomm_psg1208.dts b/target/linux/ramips/dts/mt7620a_phicomm_psg1208.dts
+index ea87d64ecc..391e31d1b7 100644
+--- a/target/linux/ramips/dts/mt7620a_phicomm_psg1208.dts
++++ b/target/linux/ramips/dts/mt7620a_phicomm_psg1208.dts
+@@ -81,7 +81,7 @@
+ 			partition@40000 {
+ 				compatible = "denx,uimage";
+ 				label = "firmware";
+-				reg = <0x50000 0x7b0000>;
++				reg = <0x50000 0xfb0000>;
+ 			};
+ 		};
+ 	};
+diff --git a/target/linux/ramips/dts/mt7620a_phicomm_psg1218.dtsi b/target/linux/ramips/dts/mt7620a_phicomm_psg1218.dtsi
+index 4163a9cd43..d096bf335b 100644
+--- a/target/linux/ramips/dts/mt7620a_phicomm_psg1218.dtsi
++++ b/target/linux/ramips/dts/mt7620a_phicomm_psg1218.dtsi
+@@ -78,7 +78,7 @@
+ 			partition@40000 {
+ 				compatible = "denx,uimage";
+ 				label = "firmware";
+-				reg = <0x50000 0x7b0000>;
++				reg = <0x50000 0xfb0000>;
+ 			};
+ 		};
+ 	};
+diff --git a/target/linux/ramips/image/mt7620.mk b/target/linux/ramips/image/mt7620.mk
+index 1fc75974f6..9c3b1f7f7e 100644
+--- a/target/linux/ramips/image/mt7620.mk
++++ b/target/linux/ramips/image/mt7620.mk
+@@ -817,7 +817,7 @@ TARGET_DEVICES += phicomm_k2g
+ 
+ define Device/phicomm_psg1208
+   SOC := mt7620a
+-  IMAGE_SIZE := 7872k
++  IMAGE_SIZE := 16064k
+   DEVICE_VENDOR := Phicomm
+   DEVICE_MODEL := PSG1208
+   DEVICE_PACKAGES := kmod-mt76x2
+@@ -827,7 +827,7 @@ TARGET_DEVICES += phicomm_psg1208
+ 
+ define Device/phicomm_psg1218a
+   SOC := mt7620a
+-  IMAGE_SIZE := 7872k
++  IMAGE_SIZE := 16064k
+   DEVICE_VENDOR := Phicomm
+   DEVICE_MODEL := PSG1218
+   DEVICE_VARIANT:= Ax
+@@ -838,7 +838,7 @@ TARGET_DEVICES += phicomm_psg1218a
+ 
+ define Device/phicomm_psg1218b
+   SOC := mt7620a
+-  IMAGE_SIZE := 7872k
++  IMAGE_SIZE := 16064k
+   DEVICE_VENDOR := Phicomm
+   DEVICE_MODEL := PSG1218
+   DEVICE_VARIANT := Bx
+-- 
+2.33.0.windows.2
+

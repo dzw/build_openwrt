@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: Build OpenWrt
+name: Build OpenWrt K2_16M
 
 on:
   repository_dispatch:
@@ -26,7 +26,7 @@ env:
   REPO_BRANCH: openwrt-21.02
 
   FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: .config
+  CONFIG_FILE: psg1218a.config
   DIY_SH_P1: diy-part1.sh
   DIY_SH_P2: diy-part2.sh
   UPLOAD_BIN_DIR: false
