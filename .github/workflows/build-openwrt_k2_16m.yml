@@ -23,7 +23,7 @@ env:
   # REPO_URL: https://github.com/coolsnowwolf/lede
   # REPO_BRANCH: master
   REPO_URL: https://www.github.com/openwrt/openwrt
-  REPO_BRANCH: openwrt-21.02
+  REPO_BRANCH: v21.02.7
 
   FEEDS_CONF: feeds.conf.default
   CONFIG_FILE: psg1218a.config
@@ -61,7 +61,7 @@ jobs:
       working-directory: /workdir
       run: |
         df -hT $PWD
-        git clone $REPO_URL -b $REPO_BRANCH openwrt
+        git clone $REPO_URL --depth 1 -b $REPO_BRANCH openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
     - name: Load custom feeds
