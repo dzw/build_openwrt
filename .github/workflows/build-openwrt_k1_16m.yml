@@ -62,6 +62,7 @@ jobs:
       run: |
         df -hT $PWD
         git clone $REPO_URL --depth 1 -b $REPO_BRANCH openwrt
+        git switch -c $REPO_BRANCH
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
     - name: Load custom feeds
@@ -99,7 +100,7 @@ jobs:
         make defconfig
         make download -j8
         find dl -size -1024c -exec ls -l {} \;
-        find dl -size -1024c -exec rm -f {} \;
+        # find dl -size -1024c -exec rm -f {} \;
 
     - name: Compile for the firmware
       id: compile
@@ -136,7 +137,7 @@ jobs:
       uses: actions/upload-artifact@main
       if: steps.organize.outputs.status == 'success' && !cancelled()
       with:
-        name: OpenWrt_firmware${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
+        name: OpenWrt_firmware_${{ env.REPO_BRANCH }:0:10}${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
         path: ${{ env.FIRMWARE }}
 
     - name: Upload firmware to cowtransfer
