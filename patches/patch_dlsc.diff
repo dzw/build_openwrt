@@ -1,0 +1,23 @@
+diff --git a/scripts/download.pl b/scripts/download.pl
+index bfee84762d..ecbe674a68 100755
+--- a/scripts/download.pl
++++ b/scripts/download.pl
+@@ -244,6 +244,7 @@ foreach my $mirror (@ARGV) {
+ 			push @extra, "$extra[0]/longterm/v$1";
+ 		}
+ 		foreach my $dir (@extra) {
++			push @mirrors, "http://mirrors.163.com/$dir";
+ 			push @mirrors, "https://cdn.kernel.org/pub/$dir";
+ 			push @mirrors, "https://download.xs4all.nl/ftp.kernel.org/pub/$dir";
+ 			push @mirrors, "https://mirrors.mit.edu/kernel/$dir";
+@@ -266,8 +267,9 @@ foreach my $mirror (@ARGV) {
+ 	}
+ }
+ 
+-push @mirrors, 'https://sources.cdn.openwrt.org';
++push @mirrors, 'https://openwrt.ecoo.top/files/openwrtdl';
+ push @mirrors, 'https://sources.openwrt.org';
++push @mirrors, 'https://sources.cdn.openwrt.org';
+ push @mirrors, 'https://mirror2.openwrt.org/sources';
+ 
+ if (-f "$target/$filename") {
