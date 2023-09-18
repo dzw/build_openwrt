@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# 一行一个写入 script/localmirrors
+# 以分号隔开, CONFIG_LOCALMIRROR=URI 写入 .config
+# 以分号隔开, 设置环境变量 DOWNLOAD_MIRROR
+# CONFIG_LOCALMIRROR="https://openwrt.ecoo.top/files/openwrtdl"
+# CONFIG_LOCALMIRROR="file:///home/username/mirror
+
 # https://blog.csdn.net/u014436243/article/details/103906937/
 # 执行make menuconfig并且设置“Target System","Subtarget","Target Profile";
 # 执行make defconfig;
@@ -29,6 +35,11 @@ git clone $REPO_URL --depth 1 -b $REPO_BRANCH openwrt
         # git -C /workdir/openwrt checkout -b $REPO_BRANCH
 
 cd openwrt
+
+
+git clone git@gitee.com:kwill/openwrt-dependent-dl.git dl
+
+
 
 sed -i s#git.openwrt.org/feed/packages#gitee.com/mybsd/openwrt-packages#g feeds.conf.default
 sed -i s#git.openwrt.org/project/luci#gitee.com/mybsd/openwrt-luci#g feeds.conf.default
