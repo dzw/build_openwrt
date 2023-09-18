@@ -1,8 +1,25 @@
 diff --git a/scripts/download.pl b/scripts/download.pl
-index 33e1e12c1e..e2d8c3f6f5 100755
+index 33e1e12c1e..11385497f7 100755
 --- a/scripts/download.pl
 +++ b/scripts/download.pl
-@@ -247,6 +247,8 @@ foreach my $mirror (@ARGV) {
+@@ -82,7 +82,7 @@ sub download_cmd($) {
+ 	}
+ 
+ 	return $have_curl
+-		? (qw(curl -f --connect-timeout 20 --retry 5 --location),
++		? (qw(curl -f --connect-timeout 20 --retry 5 --location -x socks5://192.168.64.1:10808),
+ 			$check_certificate ? () : '--insecure',
+ 			shellwords($ENV{CURL_OPTIONS} || ''),
+ 			$url)
+@@ -222,6 +222,7 @@ foreach my $mirror (@ARGV) {
+ 			push @mirrors, "https://raw.githubusercontent.com/$1";
+ 		}
+ 	} elsif ($mirror =~ /^\@GNU\/(.+)$/) {
++		push @mirrors, "https://mirrors.tuna.tsinghua.edu.cn/gnu/$1";
+ 		push @mirrors, "https://mirror.csclub.uwaterloo.ca/gnu/$1";
+ 		push @mirrors, "https://mirror.netcologne.de/gnu/$1";
+ 		push @mirrors, "http://ftp.kddilabs.jp/GNU/gnu/$1";
+@@ -247,6 +248,8 @@ foreach my $mirror (@ARGV) {
  			push @extra, "$extra[0]/longterm/v$1";
  		}
  		foreach my $dir (@extra) {
@@ -11,12 +28,13 @@ index 33e1e12c1e..e2d8c3f6f5 100755
  			push @mirrors, "https://cdn.kernel.org/pub/$dir";
  			push @mirrors, "https://download.xs4all.nl/ftp.kernel.org/pub/$dir";
  			push @mirrors, "https://mirrors.mit.edu/kernel/$dir";
-@@ -270,8 +272,9 @@ foreach my $mirror (@ARGV) {
+@@ -270,8 +273,10 @@ foreach my $mirror (@ARGV) {
  	}
  }
  
 -push @mirrors, 'https://sources.cdn.openwrt.org';
-+push @mirrors, 'https://openwrt.ecoo.top/files/openwrtdl';
++push @mirrors, 'https://repository.pangzhai.xyz/dl';
++#push @mirrors, 'https://openwrt.ecoo.top/files/openwrtdl';
  push @mirrors, 'https://sources.openwrt.org';
 +push @mirrors, 'https://sources.cdn.openwrt.org';
  push @mirrors, 'https://mirror2.openwrt.org/sources';

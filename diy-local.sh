@@ -1,5 +1,13 @@
 #!/bin/bash
 
+# https://blog.csdn.net/u014436243/article/details/103906937/
+# 执行make menuconfig并且设置“Target System","Subtarget","Target Profile";
+# 执行make defconfig;
+# 执行make menuconfig并且修改设置包；
+# 执行scripts/diffconfig.sh >mydiffconfig,存储你的改变到文本文件mydiffconfig中；
+# 执行make download(在最终make之前下载所有的依赖文件，并且使多核编译可用）
+# 执行make V=s（编译OpenWrt并且在控制台打印日志，你可以看到你在哪失败了)
+
 GITHUB_WORKSPACE=/build_openwrt/
 
 REPO_URL=https://gitee.com/mybsd/openwrt.git
@@ -76,5 +84,4 @@ svn export https://github.com/openwrt/packages/branches/openwrt-22.03/lang/golan
 
 # sudo rsync -avh --remove-source-files --ignore-existing --progress \
 # /mnt/e/openwrt/build_openwrt/ \
-#  /build_openwrt/ 
- 
+#  /build_openwrt/
