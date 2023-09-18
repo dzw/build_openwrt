@@ -1,8 +1,8 @@
 diff --git a/scripts/download.pl b/scripts/download.pl
-index bfee84762d..ecbe674a68 100755
+index 33e1e12c1e..81f28b8028 100755
 --- a/scripts/download.pl
 +++ b/scripts/download.pl
-@@ -244,6 +244,7 @@ foreach my $mirror (@ARGV) {
+@@ -247,6 +247,7 @@ foreach my $mirror (@ARGV) {
  			push @extra, "$extra[0]/longterm/v$1";
  		}
  		foreach my $dir (@extra) {
@@ -10,7 +10,7 @@ index bfee84762d..ecbe674a68 100755
  			push @mirrors, "https://cdn.kernel.org/pub/$dir";
  			push @mirrors, "https://download.xs4all.nl/ftp.kernel.org/pub/$dir";
  			push @mirrors, "https://mirrors.mit.edu/kernel/$dir";
-@@ -266,8 +267,9 @@ foreach my $mirror (@ARGV) {
+@@ -270,8 +271,9 @@ foreach my $mirror (@ARGV) {
  	}
  }
  
