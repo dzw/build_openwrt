@@ -1,5 +1,7 @@
 #!/bin/bash
 
+
+
 # 一行一个写入 script/localmirrors
 # 以分号隔开, CONFIG_LOCALMIRROR=URI 写入 .config
 # 以分号隔开, 设置环境变量 DOWNLOAD_MIRROR
@@ -15,6 +17,7 @@
 # 执行make V=s（编译OpenWrt并且在控制台打印日志，你可以看到你在哪失败了)
 
 GITHUB_WORKSPACE=/build_openwrt/
+
 
 REPO_URL=https://gitee.com/mybsd/openwrt.git
 REPO_BRANCH=v22.03.5
@@ -36,10 +39,13 @@ git clone $REPO_URL --depth 1 -b $REPO_BRANCH openwrt
 
 cd openwrt
 
+cd /build_openwrt/openwrt
+mv build_dir /mnt/e/openwrt/
+mv bin       /mnt/e/openwrt/
+ln -s /mnt/e/openwrt/bin/       bin
+ln -s /mnt/e/openwrt/build_dir/ build_dir
 
 git clone git@gitee.com:kwill/openwrt-dependent-dl.git dl
-
-
 
 sed -i s#git.openwrt.org/feed/packages#gitee.com/mybsd/openwrt-packages#g feeds.conf.default
 sed -i s#git.openwrt.org/project/luci#gitee.com/mybsd/openwrt-luci#g feeds.conf.default
@@ -90,6 +96,10 @@ svn export https://github.com/openwrt/packages/branches/openwrt-22.03/lang/golan
 
 ./scripts/feeds update passwall_packages
 ./scripts/feeds install -a -p passwall_packages
+
+
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/snap/bin
+
 
 
 
