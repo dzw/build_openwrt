@@ -1,7 +1,5 @@
 #!/bin/bash
 
-
-
 # 一行一个写入 script/localmirrors
 # 以分号隔开, CONFIG_LOCALMIRROR=URI 写入 .config
 # 以分号隔开, 设置环境变量 DOWNLOAD_MIRROR
@@ -18,7 +16,7 @@
 
 GITHUB_WORKSPACE=/build_openwrt/
 
-
+REPO_URL=https://github.com/coolsnowwolf/lede
 REPO_URL=https://gitee.com/mybsd/openwrt.git
 REPO_BRANCH=v22.03.5
 
@@ -37,15 +35,27 @@ git clone $REPO_URL --depth 1 -b $REPO_BRANCH openwrt
         # ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
         # git -C /workdir/openwrt checkout -b $REPO_BRANCH
 
-cd openwrt
+OPENWRT_ROOT=/build_openwrt/openwrt
+OPENWRT_ROOT=/mnt/e/openwrt/lede
 
-cd /build_openwrt/openwrt
+cd $OPENWRT_ROOT
 mv build_dir /mnt/e/openwrt/
 mv bin       /mnt/e/openwrt/
+
 ln -s /mnt/e/openwrt/bin/       bin
+ln -s /mnt/e/openwrt/dl         dl
 ln -s /mnt/e/openwrt/build_dir/ build_dir
 
 git clone git@gitee.com:kwill/openwrt-dependent-dl.git dl
+
+    cd package/lean/
+    git clone https://github.com/jerrykuku/lua-maxminddb.git  #git lua-maxminddb 依赖
+    git clone https://github.com/jerrykuku/luci-app-vssr.git  
+
+
+cd $OPENWRT_ROOT
+    make menuconfig
+    make -j1 V=s
 
 sed -i s#git.openwrt.org/feed/packages#gitee.com/mybsd/openwrt-packages#g feeds.conf.default
 sed -i s#git.openwrt.org/project/luci#gitee.com/mybsd/openwrt-luci#g feeds.conf.default
@@ -97,10 +107,15 @@ svn export https://github.com/openwrt/packages/branches/openwrt-22.03/lang/golan
 ./scripts/feeds update passwall_packages
 ./scripts/feeds install -a -p passwall_packages
 
-
+# 由于 WSL 的 PATH 中包含带有空格的 Windows 路径，有可能会导致编译失败，请在 make 前面加上：
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/snap/bin
 
 
+        make defconfig
+        make download -j8
+        find dl -size -1024c -exec ls -l {} \;
+        make -j$(nproc) || make -j1 || make -j1 V=s
 
 
 # sudo rsync -avh --remove-source-files --ignore-existing --progress \
