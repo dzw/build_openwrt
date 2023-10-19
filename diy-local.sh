@@ -48,32 +48,15 @@ ln -s /mnt/e/openwrt/build_dir/ build_dir
 
 git clone git@gitee.com:kwill/openwrt-dependent-dl.git dl
 
-    cd package/lean/
-    git clone https://github.com/jerrykuku/lua-maxminddb.git  #git lua-maxminddb 依赖
-    git clone https://github.com/jerrykuku/luci-app-vssr.git  
-
-
-cd $OPENWRT_ROOT
-    make menuconfig
-    make -j1 V=s
-
 sed -i s#git.openwrt.org/feed/packages#gitee.com/mybsd/openwrt-packages#g feeds.conf.default
 sed -i s#git.openwrt.org/project/luci#gitee.com/mybsd/openwrt-luci#g feeds.conf.default
 sed -i s#git.openwrt.org/feed/routing#gitee.com/mybsd/openwrt-routing#g feeds.conf.default
-
 
 echo "src-git passwall_packages https://github.com/xiaorouji/openwrt-passwall-packages.git;main" >> "feeds.conf.default"
 echo "src-git passwall          https://github.com/xiaorouji/openwrt-passwall.git;main"          >> "feeds.conf.default"
 
 sed -i "/helloworld/d" "feeds.conf.default"
 echo "src-git helloworld        https://github.com/fw876/helloworld.git"                         >> "feeds.conf.default"
-
-./scripts/feeds update -a
-./scripts/feeds install -a
-
-./scripts/feeds update helloworld
-./scripts/feeds install -a -f -p helloworld
-
 
 # $ find -name shadowsocks-rust
 # ./feeds/helloworld/shadowsocks-rust
@@ -84,39 +67,43 @@ echo "src-git helloworld        https://github.com/fw876/helloworld.git"        
 git apply $GITHUB_WORKSPACE/patches/*.diff
 git apply $GITHUB_WORKSPACE/patches/*.ldiff
 
-
-# ./scripts/feeds update packages
-
 # For OpenWrt 21.02 or lower version
 # You have to manually upgrade Golang toolchain to 1.19 or higher to compile Xray-core.
 rm -rf feeds/packages/lang/golang
 svn export https://github.com/openwrt/packages/branches/openwrt-22.03/lang/golang feeds/packages/lang/golang
 
-
+    cd package/lean/
     git clone --depth 1 https://github.com/jerrykuku/luci-theme-argon.git package/luci-theme-argon
     git clone --depth 1 https://github.com/jerrykuku/lua-maxminddb.git    package/lua-maxminddb
     git clone --depth 1 https://github.com/jerrykuku/luci-app-vssr.git    package/luci-app-vssr
-
+cd $OPENWRT_ROOT
 
 ./scripts/feeds update helloworld
-./scripts/feeds install -a -p helloworld
-
+# ./scripts/feeds update packages
+./scripts/feeds update helloworld
 ./scripts/feeds update passwall
-./scripts/feeds install -a -p passwall
-
 ./scripts/feeds update passwall_packages
+./scripts/feeds update -a
+
+./scripts/feeds install -a -f -p helloworld
+./scripts/feeds install -a -p helloworld
+./scripts/feeds install -a -p passwall
 ./scripts/feeds install -a -p passwall_packages
+./scripts/feeds install -a
 
 # 由于 WSL 的 PATH 中包含带有空格的 Windows 路径，有可能会导致编译失败，请在 make 前面加上：
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/snap/bin
 
 
-        make defconfig
-        make download -j8
-        find dl -size -1024c -exec ls -l {} \;
-        make -j$(nproc) || make -j1 || make -j1 V=s
-
+# set FORCE_UNSAFE_CONFIGURE=1
+cd $OPENWRT_ROOT
+make menuconfig
+make -j1 V=s
+make defconfig
+make download -j8
+find dl -size -1024c -exec ls -l {} \;
+make -j$(nproc) || make -j1 || make -j1 V=s
 
 # sudo rsync -avh --remove-source-files --ignore-existing --progress \
 # /mnt/e/openwrt/build_openwrt/ \
