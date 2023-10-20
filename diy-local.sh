@@ -34,8 +34,7 @@ UPLOAD_WETRANSFER=false
 UPLOAD_RELEASE=false
 
 # git clone https://gitee.com/mybsd/openwrt.git    --depth 1 -b v22.03.5 openwrt
-# git clone https://github.com/openwrt/openwrt.git --depth 1 -b openwrt-22.03 openwrt
-# git clone https://github.com/openwrt/openwrt.git --depth 1 -b openwrt-22.03 openwrt
+# echo git clone https://github.com/openwrt/openwrt.git --depth 1 -b openwrt-22.03 openwrt
 
 # git clone https://gitee.com/mybsd/openwrt.git --depth 1 -b openwrt-21.02 openwrt
 git clone https://git.nju.edu.cn/nju/openwrt.git --depth 1 -b openwrt-21.02 openwrt
