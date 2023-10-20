@@ -17,7 +17,7 @@ echo "$(pwd)"
 
 # git apply $GITHUB_WORKSPACE/patches/*.patch
 # error: can't open patch '/home/runner/work/build_openwrt/build_openwrt/patches/*.patch': No such file or directory
-git apply $GITHUB_WORKSPACE/patches/*.diff
+git apply $GITHUB_WORKSPACE/patches/$REPO_BRANCH.diff
 
 # ./scripts/feeds update packages
 rm -rf feeds/packages/lang/golang
