@@ -16,6 +16,8 @@
 
 GITHUB_WORKSPACE=/build_openwrt/
 
+sudo apt install ncurses-dev pkg-config
+
 REPO_URL=https://github.com/coolsnowwolf/lede
 REPO_URL=https://gitee.com/mybsd/openwrt.git
 REPO_BRANCH=v22.03.5
@@ -72,10 +74,14 @@ git apply $GITHUB_WORKSPACE/patches/*.ldiff
 rm -rf feeds/packages/lang/golang
 svn export https://github.com/openwrt/packages/branches/openwrt-22.03/lang/golang feeds/packages/lang/golang
 
-    cd package/lean/
-    git clone --depth 1 https://github.com/jerrykuku/luci-theme-argon.git package/luci-theme-argon
-    git clone --depth 1 https://github.com/jerrykuku/lua-maxminddb.git    package/lua-maxminddb
-    git clone --depth 1 https://github.com/jerrykuku/luci-app-vssr.git    package/luci-app-vssr
+git clone --depth 1 https://github.com/jerrykuku/luci-theme-argon.git package/lean/luci-theme-argon
+git clone --depth 1 https://github.com/jerrykuku/lua-maxminddb.git    package/lean/lua-maxminddb
+git clone --depth 1 https://github.com/jerrykuku/luci-app-vssr.git    package/lean/luci-app-vssr
+    
+# git clone --depth 1 https://github.com/jerrykuku/luci-theme-argon.git package/luci-theme-argon
+# git clone --depth 1 https://github.com/jerrykuku/lua-maxminddb.git    package/lua-maxminddb
+# git clone --depth 1 https://github.com/jerrykuku/luci-app-vssr.git    package/luci-app-vssr
+
 cd $OPENWRT_ROOT
 
 ./scripts/feeds update helloworld
@@ -83,12 +89,14 @@ cd $OPENWRT_ROOT
 ./scripts/feeds update helloworld
 ./scripts/feeds update passwall
 ./scripts/feeds update passwall_packages
-./scripts/feeds update -a
+
 
 ./scripts/feeds install -a -f -p helloworld
 ./scripts/feeds install -a -p helloworld
 ./scripts/feeds install -a -p passwall
 ./scripts/feeds install -a -p passwall_packages
+
+./scripts/feeds update -a
 ./scripts/feeds install -a
 
 # 由于 WSL 的 PATH 中包含带有空格的 Windows 路径，有可能会导致编译失败，请在 make 前面加上：
@@ -98,10 +106,10 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/us
 
 # set FORCE_UNSAFE_CONFIGURE=1
 cd $OPENWRT_ROOT
-make menuconfig
-make -j1 V=s
 make defconfig
+make menuconfig
 make download -j8
+make -j1 V=s
 find dl -size -1024c -exec ls -l {} \;
 make -j$(nproc) || make -j1 || make -j1 V=s
 
