@@ -14,7 +14,7 @@
 # 执行make download(在最终make之前下载所有的依赖文件，并且使多核编译可用）
 # 执行make V=s（编译OpenWrt并且在控制台打印日志，你可以看到你在哪失败了)
 
-GITHUB_WORKSPACE=/build_openwrt/
+GITHUB_WORKSPACE=/home/dzw/build_openwrt/
 
 sudo apt install ncurses-dev pkg-config
 
@@ -34,7 +34,9 @@ UPLOAD_WETRANSFER=false
 UPLOAD_RELEASE=false
 
 # git clone https://gitee.com/mybsd/openwrt.git    --depth 1 -b v22.03.5 openwrt
-# git clone https://github.com/openwrt/openwrt.git --depth 1 -b openwrt-21.02 openwrt
+# git clone https://github.com/openwrt/openwrt.git --depth 1 -b openwrt-22.03 openwrt
+# git clone https://github.com/openwrt/openwrt.git --depth 1 -b openwrt-22.03 openwrt
+
 # git clone https://gitee.com/mybsd/openwrt.git --depth 1 -b openwrt-21.02 openwrt
 git clone https://git.nju.edu.cn/nju/openwrt.git --depth 1 -b openwrt-21.02 openwrt
 
@@ -62,10 +64,9 @@ sed -i s#git.openwrt.org/feed/packages#gitee.com/mybsd/openwrt-packages#g feeds.
 sed -i s#git.openwrt.org/project/luci#gitee.com/mybsd/openwrt-luci#g feeds.conf.default
 sed -i s#git.openwrt.org/feed/routing#gitee.com/mybsd/openwrt-routing#g feeds.conf.default
 
-# # WARNING: Makefile 'package/feeds/passwall_packages/sing-box/Makefile' has a dependency on 'kmod-inet-diag', which does not exist
-# echo "src-git passwall_packages https://github.com/xiaorouji/openwrt-passwall-packages.git;main" >> "feeds.conf.default"
-# echo "src-git passwall          https://github.com/xiaorouji/openwrt-passwall.git;main"          >> "feeds.conf.default"
-
+# WARNING: Makefile 'package/feeds/passwall_packages/sing-box/Makefile' has a dependency on 'kmod-inet-diag', which does not exist
+echo "src-git passwall_packages https://github.com/xiaorouji/openwrt-passwall-packages.git;main" >> "feeds.conf.default"
+echo "src-git passwall          https://github.com/xiaorouji/openwrt-passwall.git;main"          >> "feeds.conf.default"
 
 sed -i "/helloworld/d" "feeds.conf.default"
 echo "src-git helloworld        https://github.com/fw876/helloworld.git"                         >> "feeds.conf.default"
