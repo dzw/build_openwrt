@@ -1,0 +1,42 @@
+diff --git a/scripts/download.pl b/scripts/download.pl
+index 419fb947a..c00579ae1 100755
+--- a/scripts/download.pl
++++ b/scripts/download.pl
+@@ -107,7 +107,7 @@ sub download_cmd {
+ 	my $filename = shift;
+ 
+ 	if ($download_tool eq "curl") {
+-		return (qw(curl -f --connect-timeout 20 --retry 5 --location),
++		return (qw(curl -f --connect-timeout 20 --retry 2 --location -x http://192.168.123.111:10809),
+ 			$check_certificate ? () : '--insecure',
+ 			shellwords($ENV{CURL_OPTIONS} || ''),
+ 			$url);
+@@ -272,6 +272,7 @@ foreach my $mirror (@ARGV) {
+ 			push @mirrors, "https://raw.githubusercontent.com/$1";
+ 		}
+ 	} elsif ($mirror =~ /^\@GNU\/(.+)$/) {
++		push @mirrors, "https://mirrors.tuna.tsinghua.edu.cn/gnu/$1";
+ 		push @mirrors, "https://mirrors.aliyun.com/gnu/$1";
+ 		push @mirrors, "https://mirrors.tencent.com/gnu/$1";
+ 		push @mirrors, "https://mirror.csclub.uwaterloo.ca/gnu/$1";
+@@ -299,6 +300,8 @@ foreach my $mirror (@ARGV) {
+ 			push @extra, "$extra[0]/longterm/v$1";
+ 		}
+ 		foreach my $dir (@extra) {
++			push @mirrors, "http://mirrors.163.com/$dir";
++			push @mirrors, "https://mirror.bjtu.edu.cn/kernel/$dir";
+ 			push @mirrors, "https://mirror.iscas.ac.cn/kernel.org/$dir";
+ 			push @mirrors, "https://mirrors.ustc.edu.cn/kernel.org/$dir";
+ 			push @mirrors, "https://cdn.kernel.org/pub/$dir";
+@@ -321,8 +324,10 @@ foreach my $mirror (@ARGV) {
+ 	}
+ }
+ 
+-push @mirrors, 'https://sources.cdn.openwrt.org';
++push @mirrors, 'https://repository.pangzhai.xyz/dl';
++push @mirrors, 'http://downloads.pangubox.com:6380/sources';
+ push @mirrors, 'https://sources.openwrt.org';
++push @mirrors, 'https://sources.cdn.openwrt.org';
+ push @mirrors, 'https://mirror2.openwrt.org/sources';
+ 
+ if (-f "$target/$filename") {

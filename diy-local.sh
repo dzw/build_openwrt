@@ -19,8 +19,9 @@ GITHUB_WORKSPACE=/build_openwrt/
 sudo apt install ncurses-dev pkg-config
 
 REPO_URL=https://github.com/coolsnowwolf/lede
-REPO_URL=https://gitee.com/mybsd/openwrt.git
-REPO_BRANCH=v22.03.5
+REPO_URL=https://github.com/openwrt/openwrt.git
+REPO_URL=https://git.nju.edu.cn/nju/openwrt.git
+REPO_BRANCH=openwrt-21.02
 
 FEEDS_CONF=feeds.conf.default
 CONFIG_FILE=adslr_g7.config
@@ -32,7 +33,11 @@ UPLOAD_COWTRANSFER=false
 UPLOAD_WETRANSFER=false
 UPLOAD_RELEASE=false
 
-# git clone https://gitee.com/mybsd/openwrt.git --depth 1 -b v22.03.5 openwrt
+# git clone https://gitee.com/mybsd/openwrt.git    --depth 1 -b v22.03.5 openwrt
+# git clone https://github.com/openwrt/openwrt.git --depth 1 -b openwrt-21.02 openwrt
+# git clone https://gitee.com/mybsd/openwrt.git --depth 1 -b openwrt-21.02 openwrt
+git clone https://git.nju.edu.cn/nju/openwrt.git --depth 1 -b openwrt-21.02 openwrt
+
 git clone $REPO_URL --depth 1 -b $REPO_BRANCH openwrt
         # ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
         # git -C /workdir/openwrt checkout -b $REPO_BRANCH
@@ -44,8 +49,11 @@ cd $OPENWRT_ROOT
 mv build_dir /mnt/e/openwrt/
 mv bin       /mnt/e/openwrt/
 
+# mkdir /mnt/e/openwrt/
+# mv dl /mnt/e/openwrt/
+# ln -s /mnt/e/openwrt/dl         dl
+
 ln -s /mnt/e/openwrt/bin/       bin
-ln -s /mnt/e/openwrt/dl         dl
 ln -s /mnt/e/openwrt/build_dir/ build_dir
 
 git clone git@gitee.com:kwill/openwrt-dependent-dl.git dl
@@ -54,6 +62,7 @@ sed -i s#git.openwrt.org/feed/packages#gitee.com/mybsd/openwrt-packages#g feeds.
 sed -i s#git.openwrt.org/project/luci#gitee.com/mybsd/openwrt-luci#g feeds.conf.default
 sed -i s#git.openwrt.org/feed/routing#gitee.com/mybsd/openwrt-routing#g feeds.conf.default
 
+# WARNING: Makefile 'package/feeds/passwall_packages/sing-box/Makefile' has a dependency on 'kmod-inet-diag', which does not exist
 echo "src-git passwall_packages https://github.com/xiaorouji/openwrt-passwall-packages.git;main" >> "feeds.conf.default"
 echo "src-git passwall          https://github.com/xiaorouji/openwrt-passwall.git;main"          >> "feeds.conf.default"
 
@@ -76,20 +85,15 @@ svn export https://github.com/openwrt/packages/branches/openwrt-22.03/lang/golan
 
 git clone --depth 1 https://github.com/jerrykuku/luci-theme-argon.git package/lean/luci-theme-argon
 git clone --depth 1 https://github.com/jerrykuku/lua-maxminddb.git    package/lean/lua-maxminddb
-git clone --depth 1 https://github.com/jerrykuku/luci-app-vssr.git    package/lean/luci-app-vssr
-    
-# git clone --depth 1 https://github.com/jerrykuku/luci-theme-argon.git package/luci-theme-argon
-# git clone --depth 1 https://github.com/jerrykuku/lua-maxminddb.git    package/lua-maxminddb
-# git clone --depth 1 https://github.com/jerrykuku/luci-app-vssr.git    package/luci-app-vssr
+
+# WARNING: Makefile 'package/lean/luci-app-vssr/Makefile' has a dependency on 'pdnsd-alt', which does not exist
+# git clone --depth 1 https://github.com/jerrykuku/luci-app-vssr.git    package/lean/luci-app-vssr
 
 cd $OPENWRT_ROOT
 
 ./scripts/feeds update helloworld
-# ./scripts/feeds update packages
-./scripts/feeds update helloworld
 ./scripts/feeds update passwall
 ./scripts/feeds update passwall_packages
-
 
 ./scripts/feeds install -a -f -p helloworld
 ./scripts/feeds install -a -p helloworld
