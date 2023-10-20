@@ -1,0 +1,104 @@
+wget http://192.168.123.111:100/ssrp/chinadns-ng_2023.06.01-1_mipsel_24kc.ipk
+wget http://192.168.123.111:100/ssrp/dns2socks_2.1-2_mipsel_24kc.ipk
+wget http://192.168.123.111:100/ssrp/dns2tcp_1.1.0-1_mipsel_24kc.ipk
+wget http://192.168.123.111:100/ssrp/ipt2socks_1.1.3-3_mipsel_24kc.ipk
+wget http://192.168.123.111:100/ssrp/lua-neturl_1.1-1-3_all.ipk
+wget http://192.168.123.111:100/ssrp/microsocks_1.0.3-1_mipsel_24kc.ipk
+wget http://192.168.123.111:100/ssrp/shadowsocksr-libev-ssr-check_2.5.6-9_mipsel_24kc.ipk
+wget http://192.168.123.111:100/ssrp/shadowsocksr-libev-ssr-local_2.5.6-9_mipsel_24kc.ipk
+wget http://192.168.123.111:100/ssrp/shadowsocksr-libev-ssr-nat_2.5.6-9_mipsel_24kc.ipk
+wget http://192.168.123.111:100/ssrp/shadowsocksr-libev-ssr-redir_2.5.6-9_mipsel_24kc.ipk
+wget http://192.168.123.111:100/ssrp/shadowsocksr-libev-ssr-server_2.5.6-9_mipsel_24kc.ipk
+wget http://192.168.123.111:100/ssrp/simple-obfs-client_0.0.5-1_mipsel_24kc.ipk
+wget http://192.168.123.111:100/ssrp/simple-obfs-server_0.0.5-1_mipsel_24kc.ipk
+wget http://192.168.123.111:100/ssrp/tcping_0.3-1_mipsel_24kc.ipk
+wget http://192.168.123.111:100/ssrp/trojan_1.16.0-2_mipsel_24kc.ipk
+
+wget http://192.168.123.111:100/ssrp/luci-app-ssr-plus_187_all.ipk
+
+wget http://192.168.123.111:100/ssrp/luci-i18n-ssr-plus-zh-cn_git-23.282.10874-06cf02e_all.ipk
+
+
+wget https://dl.openwrt.ai/packages-23.05/mipsel_24kc/luci/ucode-mod-lua_1_mipsel_24kc.ipk
+wget https://dl.openwrt.ai/packages-23.05/mipsel_24kc/luci/luci-lua-runtime_git-23.233.52805-dae2684_mipsel_24kc.ipk
+wget https://dl.openwrt.ai/packages-23.05/mipsel_24kc/base/libopenssl3_3.0.11-1_mipsel_24kc.ipk
+
+$=========
+opkg install chinadns-ng_2023.06.01-1_mipsel_24kc.ipk
+opkg install dns2socks_2.1-2_mipsel_24kc.ipk
+opkg install dns2tcp_1.1.0-1_mipsel_24kc.ipk
+opkg install ipt2socks_1.1.3-3_mipsel_24kc.ipk
+opkg install lua-neturl_1.1-1-3_all.ipk
+opkg install microsocks_1.0.3-1_mipsel_24kc.ipk
+opkg install simple-obfs-client_0.0.5-1_mipsel_24kc.ipk
+opkg install simple-obfs-server_0.0.5-1_mipsel_24kc.ipk
+opkg install tcping_0.3-1_mipsel_24kc.ipk
+
+#========
+opkg install libopenssl3_3.0.11-1_mipsel_24kc.ipk
+opkg install ucode-mod-lua_1_mipsel_24kc.ipk
+opkg install luci-lua-runtime_git-23.233.52805-dae2684_mipsel_24kc.ipk
+
+opkg install shadowsocksr-libev-ssr-check_2.5.6-9_mipsel_24kc.ipk
+opkg install shadowsocksr-libev-ssr-local_2.5.6-9_mipsel_24kc.ipk
+opkg install shadowsocksr-libev-ssr-nat_2.5.6-9_mipsel_24kc.ipk
+opkg install shadowsocksr-libev-ssr-redir_2.5.6-9_mipsel_24kc.ipk
+opkg install shadowsocksr-libev-ssr-server_2.5.6-9_mipsel_24kc.ipk
+opkg install trojan_1.16.0-2_mipsel_24kc.ipk
+
+
+opkg install luci-app-ssr-plus_187_all.ipk
+opkg install luci-i18n-ssr-plus-zh-cn_git-23.282.10874-06cf02e_all.ipk
+
+wget https://dl.openwrt.ai/packages-23.05/mipsel_24kc/base/libucode20220812_2023-06-06-c7d84aae-1_mipsel_24kc.ipk
+opkg install libucode20220812_2023-06-06-c7d84aae-1_mipsel_24kc.ipk
+
+libopenssl3
+    shadowsocksr-libev-ssr-check_2.5.6-9_mipsel_24kc.ipk
+    shadowsocksr-libev-ssr-local_2.5.6-9_mipsel_24kc.ipk
+    shadowsocksr-libev-ssr-nat_2.5.6-9_mipsel_24kc.ipk
+    shadowsocksr-libev-ssr-redir_2.5.6-9_mipsel_24kc.ipk
+    shadowsocksr-libev-ssr-server_2.5.6-9_mipsel_24kc.ipk
+    trojan_1.16.0-2_mipsel_24kc.ipk
+
+ucode-mod-lua_1_mipsel_24kc.ipk
+    luci-lua-runtime
+        luci-app-ssr-plus_187_all.ipk
+
+Installing luci-lua-runtime (git-23.233.52805-dae2684) to root...
+Collected errors:
+ * check_data_file_clashes: Package luci-lua-runtime wants to install file /usr/lib/lua/luci/cacheloader.lua
+        But that file is already provided by package  * luci-base
+ * check_data_file_clashes: Package luci-lua-runtime wants to install file /usr/lib/lua/luci/ccache.lua
+        But that file is already provided by package  * luci-base
+ * check_data_file_clashes: Package luci-lua-runtime wants to install file /usr/lib/lua/luci/config.lua
+        But that file is already provided by package  * luci-base
+ * check_data_file_clashes: Package luci-lua-runtime wants to install file /usr/lib/lua/luci/dispatcher.lua
+        But that file is already provided by package  * luci-base
+ * check_data_file_clashes: Package luci-lua-runtime wants to install file /usr/lib/lua/luci/i18n.lua
+        But that file is already provided by package  * luci-base
+ * check_data_file_clashes: Package luci-lua-runtime wants to install file /usr/lib/lua/luci/model/uci.lua
+        But that file is already provided by package  * luci-base
+ * check_data_file_clashes: Package luci-lua-runtime wants to install file /usr/lib/lua/luci/store.lua
+        But that file is already provided by package  * luci-base
+ * check_data_file_clashes: Package luci-lua-runtime wants to install file /usr/lib/lua/luci/sys/zoneinfo/tzdata.lua
+        But that file is already provided by package  * luci-base
+ * check_data_file_clashes: Package luci-lua-runtime wants to install file /usr/lib/lua/luci/sys/zoneinfo/tzoffset.lua
+        But that file is already provided by package  * luci-base
+ * check_data_file_clashes: Package luci-lua-runtime wants to install file /usr/lib/lua/luci/sys/zoneinfo.lua
+        But that file is already provided by package  * luci-base
+ * check_data_file_clashes: Package luci-lua-runtime wants to install file /usr/lib/lua/luci/sys.lua
+        But that file is already provided by package  * luci-base
+ * check_data_file_clashes: Package luci-lua-runtime wants to install file /usr/lib/lua/luci/template/parser.so
+        But that file is already provided by package  * luci-base
+ * check_data_file_clashes: Package luci-lua-runtime wants to install file /usr/lib/lua/luci/template.lua
+        But that file is already provided by package  * luci-base
+ * check_data_file_clashes: Package luci-lua-runtime wants to install file /usr/lib/lua/luci/version.lua
+        But that file is already provided by package  * luci-base
+ * check_data_file_clashes: Package luci-lua-runtime wants to install file /usr/lib/lua/luci/view/empty_node_placeholder.htm
+        But that file is already provided by package  * luci-base
+ * check_data_file_clashes: Package luci-lua-runtime wants to install file /usr/lib/lua/luci/view/indexer.htm
+        But that file is already provided by package  * luci-base
+ * check_data_file_clashes: Package luci-lua-runtime wants to install file /usr/lib/lua/luci/xml.lua
+        But that file is already provided by package  * luci-base
+ * opkg_install_cmd: Cannot install package luci-lua-runtime.
