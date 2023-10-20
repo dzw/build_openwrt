@@ -116,7 +116,24 @@ jobs:
 
     - name: Check space usage
       if: (!cancelled())
-      run: df -hT
+      run: |
+        cd openwrt
+        cat logs/feeds/helloworld/v2ray-core/dump.txt
+        cat logs/feeds/helloworld/v2ray-plugin/dump.txt
+        cat logs/feeds/helloworld/v2raya/dump.txt
+        cat logs/feeds/helloworld/xray-core/dump.txt
+        cat logs/feeds/helloworld/xray-plugin/dump.txt
+        cat logs/feeds/passwall/luci-app-passwall/dump.txt
+        cat logs/feeds/passwall_packages/brook/dump.txt
+        cat logs/feeds/passwall_packages/hysteria/dump.txt
+        cat logs/feeds/passwall_packages/sing-box/dump.txt
+        cat logs/feeds/passwall_packages/trojan-go/dump.txt
+        cat logs/feeds/passwall_packages/v2ray-core/dump.txt
+        cat logs/feeds/passwall_packages/v2ray-plugin/dump.txt
+        cat logs/feeds/passwall_packages/xray-core/dump.txt
+        cat logs/feeds/passwall_packages/xray-plugin/dump.txt
+        df -hT
+
 
     - name: Upload bin directory
       uses: actions/upload-artifact@main
