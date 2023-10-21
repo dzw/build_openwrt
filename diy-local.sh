@@ -110,10 +110,14 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/us
 # set FORCE_UNSAFE_CONFIGURE=1
 
 cd $OPENWRT_ROOT
+rm -rf tmp
 make defconfig
 make menuconfig
 make download -j8
 make -j1 V=s
+# no Go files in build_dir v2ray-plugin-5.8.0/.go_work/build
+# \\wsl.localhost\Ubuntu-18.04/\home\dzw\build_openwrt\openwrt\build_dir\target-mipsel_24kc_musl\v2ray-plugin-5.8.0\.go_work\build\src
+
 find dl -size -1024c -exec ls -l {} \;
 make -j$(nproc) || make -j1 || make -j1 V=s
 
