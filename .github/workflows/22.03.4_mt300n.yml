@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: Build OpenWrt mt300n-v2 22.03.4
+name: OpenWrt 22.03.4 mt300n-v2
 
 on:
   repository_dispatch:
