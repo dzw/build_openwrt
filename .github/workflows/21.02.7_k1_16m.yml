@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: Build OpenWrt K1_16M 21.02.7
+name: OpenWrt 21.02.7 K1_16M
 
 on:
   repository_dispatch:

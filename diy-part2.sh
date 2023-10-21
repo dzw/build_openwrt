@@ -29,6 +29,8 @@ svn export https://github.com/openwrt/packages/branches/openwrt-22.03/lang/golan
 
     git clone https://github.com/jerrykuku/luci-theme-argon.git package/lean/luci-theme-argon
     git clone https://github.com/jerrykuku/lua-maxminddb.git    package/lean/lua-maxminddb
-    git clone https://github.com/jerrykuku/luci-app-vssr.git    package/lean/luci-app-vssr
+
+    #顯示 Hello World 節點導入失敗
+    # git clone https://github.com/jerrykuku/luci-app-vssr.git    package/lean/luci-app-vssr
 
 # popd
