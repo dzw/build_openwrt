@@ -33,18 +33,22 @@ UPLOAD_COWTRANSFER=false
 UPLOAD_WETRANSFER=false
 UPLOAD_RELEASE=false
 
+#v21.02.7 WARNING: Makefile 'package/feeds/passwall_packages/sing-box/Makefile' has a dependency on 'kmod-inet-diag', which does not exist
+
 # git clone https://gitee.com/mybsd/openwrt.git    --depth 1 -b v22.03.5 openwrt
 # echo git clone https://github.com/openwrt/openwrt.git --depth 1 -b openwrt-22.03 openwrt
 
 # git clone https://gitee.com/mybsd/openwrt.git --depth 1 -b openwrt-21.02 openwrt
-git clone https://git.nju.edu.cn/nju/openwrt.git --depth 1 -b openwrt-21.02 openwrt
+# git clone https://git.nju.edu.cn/nju/openwrt.git --depth 1 -b openwrt-21.02 openwrt
+# git clone https://git.nju.edu.cn/nju/openwrt.git --depth 1 -b v21.02.7 openwrt
+
 
 git clone $REPO_URL --depth 1 -b $REPO_BRANCH openwrt
         # ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
         # git -C /workdir/openwrt checkout -b $REPO_BRANCH
 
-OPENWRT_ROOT=/build_openwrt/openwrt
-OPENWRT_ROOT=/mnt/e/openwrt/lede
+OPENWRT_ROOT=$GITHUB_WORKSPACE/openwrt
+OPENWRT_ROOT=$GITHUB_WORKSPACE/lede
 
 cd $OPENWRT_ROOT
 mv build_dir /mnt/e/openwrt/
@@ -59,9 +63,9 @@ ln -s /mnt/e/openwrt/build_dir/ build_dir
 
 git clone git@gitee.com:kwill/openwrt-dependent-dl.git dl
 
-sed -i s#git.openwrt.org/feed/packages#gitee.com/mybsd/openwrt-packages#g feeds.conf.default
-sed -i s#git.openwrt.org/project/luci#gitee.com/mybsd/openwrt-luci#g feeds.conf.default
-sed -i s#git.openwrt.org/feed/routing#gitee.com/mybsd/openwrt-routing#g feeds.conf.default
+# sed -i s#git.openwrt.org/feed/packages#gitee.com/mybsd/openwrt-packages#g feeds.conf.default
+# sed -i s#git.openwrt.org/project/luci#gitee.com/mybsd/openwrt-luci#g feeds.conf.default
+# sed -i s#git.openwrt.org/feed/routing#gitee.com/mybsd/openwrt-routing#g feeds.conf.default
 
 # WARNING: Makefile 'package/feeds/passwall_packages/sing-box/Makefile' has a dependency on 'kmod-inet-diag', which does not exist
 echo "src-git passwall_packages https://github.com/xiaorouji/openwrt-passwall-packages.git;main" >> "feeds.conf.default"
@@ -78,7 +82,7 @@ echo "src-git helloworld        https://github.com/fw876/helloworld.git"        
 cd $OPENWRT_ROOT
 
 git apply $GITHUB_WORKSPACE/patches/*.diff
-git apply $GITHUB_WORKSPACE/patches/*.ldiff
+# git apply $GITHUB_WORKSPACE/patches/*.ldiff
 
 # For OpenWrt 21.02 or lower version
 # You have to manually upgrade Golang toolchain to 1.19 or higher to compile Xray-core.
@@ -101,6 +105,8 @@ git clone --depth 1 https://github.com/jerrykuku/lua-maxminddb.git    package/le
 # ./scripts/feeds install -a -p passwall
 # ./scripts/feeds install -a -p passwall_packages
 
+chmod +x ./scripts/feeds
+
 ./scripts/feeds update -a
 ./scripts/feeds install -a
 
@@ -112,7 +118,7 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/us
 
 cd $OPENWRT_ROOT
 rm -rf tmp
-make defconfig
+# make defconfig
 make menuconfig
 make download -j8
 

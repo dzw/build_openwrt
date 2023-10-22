@@ -5,7 +5,7 @@ Subject: [PATCH] 16M
 
 ---
  target/linux/ramips/dts/mt7620a_phicomm_psg1208.dts  | 2 +-
- target/linux/ramips/dts/mt7620a_phicomm_k2-v22.4.dts | 2 +-
+ target/linux/ramips/dts/mt7620a_phicomm_psg1218.dtsi | 2 +-
  target/linux/ramips/image/mt7620.mk                  | 6 +++---
  3 files changed, 5 insertions(+), 5 deletions(-)
 
@@ -22,10 +22,10 @@ index ea87d64ecc..391e31d1b7 100644
  			};
  		};
  	};
-diff --git a/target/linux/ramips/dts/mt7620a_phicomm_k2-v22.4.dts b/target/linux/ramips/dts/mt7620a_phicomm_k2-v22.4.dts
+diff --git a/target/linux/ramips/dts/mt7620a_phicomm_psg1218.dtsi b/target/linux/ramips/dts/mt7620a_phicomm_psg1218.dtsi
 index 4163a9cd43..d096bf335b 100644
---- a/target/linux/ramips/dts/mt7620a_phicomm_k2-v22.4.dts
-+++ b/target/linux/ramips/dts/mt7620a_phicomm_k2-v22.4.dts
+--- a/target/linux/ramips/dts/mt7620a_phicomm_psg1218.dtsi
++++ b/target/linux/ramips/dts/mt7620a_phicomm_psg1218.dtsi
 @@ -78,7 +78,7 @@
  			partition@40000 {
  				compatible = "denx,uimage";
