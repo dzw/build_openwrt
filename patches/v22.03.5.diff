@@ -10,7 +10,20 @@ index 52d131556d..2aa075cf18 100644
 +		reg = <0x50000 0xfb0000>;
  	};
  };
-
+ 
+diff --git a/target/linux/ramips/dts/mt7620a_phicomm_k2-v22.5.dts b/target/linux/ramips/dts/mt7620a_phicomm_k2-v22.5.dts
+index cf9d0b290c..2d9d01bbf5 100644
+--- a/target/linux/ramips/dts/mt7620a_phicomm_k2-v22.5.dts
++++ b/target/linux/ramips/dts/mt7620a_phicomm_k2-v22.5.dts
+@@ -15,7 +15,7 @@
+ 	partition@a0000 {
+ 		compatible = "denx,uimage";
+ 		label = "firmware";
+-		reg = <0xa0000 0x760000>;
++		reg = <0xa0000 0xf60000>;
+ 	};
+ };
+ 
 diff --git a/target/linux/ramips/dts/mt7620a_phicomm_psg1208.dts b/target/linux/ramips/dts/mt7620a_phicomm_psg1208.dts
 index 4e123c32bd..3026a482f5 100644
 --- a/target/linux/ramips/dts/mt7620a_phicomm_psg1208.dts
@@ -25,11 +38,11 @@ index 4e123c32bd..3026a482f5 100644
  		};
  	};
 diff --git a/target/linux/ramips/image/mt7620.mk b/target/linux/ramips/image/mt7620.mk
-index cfdf5f4d04..569f268c5d 100644
+index 6089750407..b4304df2ec 100644
 --- a/target/linux/ramips/image/mt7620.mk
 +++ b/target/linux/ramips/image/mt7620.mk
 @@ -887,7 +887,7 @@ TARGET_DEVICES += ohyeah_oy-0001
-
+ 
  define Device/phicomm_k2-v22.4
    SOC := mt7620a
 -  IMAGE_SIZE := 7872k
@@ -38,7 +51,7 @@ index cfdf5f4d04..569f268c5d 100644
    DEVICE_MODEL := K2
    DEVICE_VARIANT:= v22.4 or older
 @@ -917,7 +917,7 @@ TARGET_DEVICES += phicomm_k2g
-
+ 
  define Device/phicomm_psg1208
    SOC := mt7620a
 -  IMAGE_SIZE := 7872k
