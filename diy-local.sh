@@ -74,6 +74,12 @@ echo "src-git passwall          https://github.com/xiaorouji/openwrt-passwall.gi
 sed -i "/helloworld/d" "feeds.conf.default"
 echo "src-git helloworld        https://github.com/fw876/helloworld.git"                         >> "feeds.conf.default"
 
+# root@OpenWrt:~# opkg install xray-core
+# Installing xray-core (1.8.3-1) to root...
+# Collected errors:
+#  * verify_pkg_installable: Only have 4176kb available on filesystem /overlay, pkg xray-core needs 7987
+#  * opkg_install_cmd: Cannot install package xray-core.
+
 # $ find -name shadowsocks-rust
 # ./feeds/helloworld/shadowsocks-rust
 # ./feeds/passwall_packages/shadowsocks-rust
