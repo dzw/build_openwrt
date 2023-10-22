@@ -71,6 +71,7 @@ git clone git@gitee.com:kwill/openwrt-dependent-dl.git dl
 echo "src-git passwall_packages https://github.com/xiaorouji/openwrt-passwall-packages.git;main" >> "feeds.conf.default"
 echo "src-git passwall          https://github.com/xiaorouji/openwrt-passwall.git;main"          >> "feeds.conf.default"
 
+# [ShadowSocksR Plus+] 顯示菜單
 sed -i "/helloworld/d" "feeds.conf.default"
 echo "src-git helloworld        https://github.com/fw876/helloworld.git"                         >> "feeds.conf.default"
 
@@ -87,20 +88,16 @@ echo "src-git helloworld        https://github.com/fw876/helloworld.git"        
 
 cd $OPENWRT_ROOT
 
+git apply ../patches/v22.03.5.diff
 git apply $GITHUB_WORKSPACE/patches/*.diff
 # git apply $GITHUB_WORKSPACE/patches/*.ldiff
 
-# For OpenWrt 21.02 or lower version
-# You have to manually upgrade Golang toolchain to 1.19 or higher to compile Xray-core.
-rm -rf feeds/packages/lang/golang
-svn export https://github.com/openwrt/packages/branches/openwrt-22.03/lang/golang feeds/packages/lang/golang
-
 git clone --depth 1 https://github.com/jerrykuku/luci-theme-argon.git package/lean/luci-theme-argon
-git clone --depth 1 https://github.com/jerrykuku/lua-maxminddb.git    package/lean/lua-maxminddb
 
-#顯示菜單 Hello World 節點導入失敗
+#[Hello World] 顯示菜單 節點導入失敗
 # WARNING: Makefile 'package/lean/luci-app-vssr/Makefile' has a dependency on 'pdnsd-alt', which does not exist
 # git clone --depth 1 https://github.com/jerrykuku/luci-app-vssr.git    package/lean/luci-app-vssr
+# git clone --depth 1 https://github.com/jerrykuku/lua-maxminddb.git    package/lean/lua-maxminddb
 
 # ./scripts/feeds update helloworld
 # ./scripts/feeds update passwall
@@ -114,9 +111,16 @@ git clone --depth 1 https://github.com/jerrykuku/lua-maxminddb.git    package/le
 chmod +x ./scripts/feeds
 
 ./scripts/feeds update -a
+
+# For OpenWrt 21.02 or lower version
+# You have to manually upgrade Golang toolchain to 1.19 or higher to compile Xray-core.
+rm -rf feeds/packages/lang/golang
+svn export https://github.com/openwrt/packages/branches/openwrt-22.03/lang/golang feeds/packages/lang/golang
+
 ./scripts/feeds install -a
 
 # 由于 WSL 的 PATH 中包含带有空格的 Windows 路径，有可能会导致编译失败，请在 make 前面加上：
+# find: The relative path 'Files/WindowsApps/MicrosoftCorporationII.WindowsSubsystemForLinux_1.2.5.0_x64__8wekyb3d8bbwe' is included in the PATH environment variable, which is insecure in combination with the -execdir action of find.  Please remove that entry from $PATH
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/snap/bin
 
@@ -128,9 +132,6 @@ rm -rf tmp
 make menuconfig
 make download -j8
 
-# find: The relative path 'Files/WindowsApps/MicrosoftCorporationII.WindowsSubsystemForLinux_1.2.5.0_x64__8wekyb3d8bbwe' is included in the PATH environment variable, which is insecure in combination with the -execdir action of find.  Please remove that entry from $PATH
-PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/snap/bin
 make -j1 V=s
 
 # no Go files in build_dir v2ray-plugin-5.8.0/.go_work/build
