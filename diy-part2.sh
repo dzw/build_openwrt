@@ -21,8 +21,8 @@ git apply $GITHUB_WORKSPACE/patches/$REPO_BRANCH.diff
 
 # ./scripts/feeds update packages
 rm -rf feeds/packages/lang/golang
-# svn co     https://github.com/openwrt/packages/branches/openwrt-22.03/lang/golang feeds/packages/lang/golang
 svn export https://github.com/openwrt/packages/branches/openwrt-22.03/lang/golang feeds/packages/lang/golang
+# svn co   https://github.com/openwrt/packages/branches/openwrt-22.03/lang/golang feeds/packages/lang/golang
 
 # cd openwrt/package
 # pushd package
