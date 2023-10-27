@@ -1,3 +1,9 @@
+[ShadowSocksR Plus+]
+https://github.com/fw876/helloworld.git
+
+[Pass Wall]
+https://github.com/xiaorouji/openwrt-passwall.git
+
 wget http://192.168.123.111:100/ssrp/chinadns-ng_2023.06.01-1_mipsel_24kc.ipk
 wget http://192.168.123.111:100/ssrp/dns2socks_2.1-2_mipsel_24kc.ipk
 wget http://192.168.123.111:100/ssrp/dns2tcp_1.1.0-1_mipsel_24kc.ipk

@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# 由于 WSL 的 PATH 中包含带有空格的 Windows 路径，有可能会导致编译失败，请在 make 前面加上：
+# find: The relative path 'Files/WindowsApps/MicrosoftCorporationII.WindowsSubsystemForLinux_1.2.5.0_x64__8wekyb3d8bbwe' is included in the PATH environment variable, which is insecure in combination with the -execdir action of find.  Please remove that entry from $PATH
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/snap/bin
+
+
 # 一行一个写入 script/localmirrors
 # 以分号隔开, CONFIG_LOCALMIRROR=URI 写入 .config
 # 以分号隔开, 设置环境变量 DOWNLOAD_MIRROR
@@ -67,6 +73,7 @@ git clone git@gitee.com:kwill/openwrt-dependent-dl.git dl
 # sed -i s#git.openwrt.org/project/luci#gitee.com/mybsd/openwrt-luci#g feeds.conf.default
 # sed -i s#git.openwrt.org/feed/routing#gitee.com/mybsd/openwrt-routing#g feeds.conf.default
 
+# [Pass Wall] 顯示菜單
 # WARNING: Makefile 'package/feeds/passwall_packages/sing-box/Makefile' has a dependency on 'kmod-inet-diag', which does not exist
 echo "src-git passwall_packages https://github.com/xiaorouji/openwrt-passwall-packages.git;main" >> "feeds.conf.default"
 echo "src-git passwall          https://github.com/xiaorouji/openwrt-passwall.git;main"          >> "feeds.conf.default"
@@ -119,10 +126,6 @@ svn export https://github.com/openwrt/packages/branches/openwrt-22.03/lang/golan
 
 ./scripts/feeds install -a
 
-# 由于 WSL 的 PATH 中包含带有空格的 Windows 路径，有可能会导致编译失败，请在 make 前面加上：
-# find: The relative path 'Files/WindowsApps/MicrosoftCorporationII.WindowsSubsystemForLinux_1.2.5.0_x64__8wekyb3d8bbwe' is included in the PATH environment variable, which is insecure in combination with the -execdir action of find.  Please remove that entry from $PATH
-PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/snap/bin
 
 # set FORCE_UNSAFE_CONFIGURE=1
 
@@ -143,3 +146,4 @@ make -j$(nproc) || make -j1 || make -j1 V=s
 # sudo rsync -avh --remove-source-files --ignore-existing --progress \
 # /mnt/e/openwrt/build_openwrt/ \
 #  /build_openwrt/
+
