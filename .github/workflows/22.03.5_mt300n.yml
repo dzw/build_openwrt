@@ -78,7 +78,12 @@ jobs:
       run: cd openwrt && ./scripts/feeds update -a
 
     - name: Install feeds
-      run: cd openwrt && ./scripts/feeds install -a
+      run: |
+        cd openwrt
+        ./scripts/feeds install -a
+        ./scripts/feeds uninstall xray-core && ./scripts/feeds install -p passwall_packages xray-core
+        rm -rf feeds/packages/lang/golang 
+        svn export https://github.com/openwrt/packages/branches/openwrt-23.05/lang/golang feeds/packages/lang/golang
 
     - name: Load custom configuration
       run: |
