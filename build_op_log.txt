@@ -1,1 +1,18 @@
+dzw@dzw-PC:~/build_openwrt/openwrt$ find . -name xray |grep bin/
+./build_dir/target-mipsel_24kc_musl/root.orig-ramips/usr/bin/xray
+./build_dir/target-mipsel_24kc_musl/root-ramips/usr/bin/xray
+./build_dir/target-mipsel_24kc_musl/Xray-core-1.8.1/.pkgdir/xray-core/usr/bin/xray
+./build_dir/target-mipsel_24kc_musl/Xray-core-1.8.4/.pkgdir/xray-core/usr/bin/xray
+./staging_dir/target-mipsel_24kc_musl/root-ramips/usr/bin/xray
+
+
+cd ~/build_openwrt/openwrt
+find . -name xray|grep usr/bin/xray
+./build_dir/target-mipsel_24kc_musl/root.orig-ramips/usr/bin/xray
+./build_dir/target-mipsel_24kc_musl/root-ramips/usr/bin/xray
+./build_dir/target-mipsel_24kc_musl/Xray-core-1.8.1/.pkgdir/xray-core/usr/bin/xray
+
+
+
+
 grep -r PKG_SOURCE_URL:=@

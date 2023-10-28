@@ -121,8 +121,9 @@ chmod +x ./scripts/feeds
 
 # For OpenWrt 21.02 or lower version
 # You have to manually upgrade Golang toolchain to 1.19 or higher to compile Xray-core.
-rm -rf feeds/packages/lang/golang
-svn export https://github.com/openwrt/packages/branches/openwrt-22.03/lang/golang feeds/packages/lang/golang
+rm -rf feeds/packages/lang/golang 
+# svn export https://github.com/openwrt/packages/branches/openwrt-22.03/lang/golang feeds/packages/lang/golang
+svn export https://github.com/openwrt/packages/branches/openwrt-23.05/lang/golang feeds/packages/lang/golang
 
 ./scripts/feeds install -a
 
