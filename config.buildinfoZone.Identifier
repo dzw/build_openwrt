@@ -1,0 +1,4 @@
+[ZoneTransfer]
+ZoneId=3
+ReferrerUrl=https://archive.openwrt.org/releases/22.03.5/targets/ramips/mt76x8/
+HostUrl=https://archive.openwrt.org/releases/22.03.5/targets/ramips/mt76x8/config.buildinfo
