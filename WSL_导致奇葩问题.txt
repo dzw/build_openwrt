@@ -8,13 +8,14 @@ ls -l package/network/config/netifd/files/lib/netifd/proto/dhcp.sh
 ls -l staging_dir/target-mipsel_24kc_musl/root-ramips/lib/netifd/proto/dhcp.sh
 
 find . -type f -name *.sh -exec ls -l {} \;
-find . -type f -name *.sh -exec chmod a=rwx {} \;
+find . -type f -exec chmod a+=rw {} \;
 
 find . -type dhcp.sh -exec ls -l {} \;
 find . -name dhcp.sh
 
 
 root@OpenWrt:/lib# chmod +x /lib/netifd/proto/*.sh
+find /lib -name *.sh -exec ls -l {} \;
 
 
 dzw@dzw-PC:~/build_openwrt/openwrt$ find . -name dhcp.sh -exec ls -l {} \;
@@ -29,3 +30,10 @@ dzw@dzw-PC:~/build_openwrt/openwrt$ find . -name dhcpv6.sh -exec ls -l {} \;
 -rwxr-xr-x 1 dzw dzw 4902 Oct 29 20:38 ./build_dir/target-mipsel_24kc_musl/odhcp6c-2022-08-05-7d21e8d8/.pkgdir/odhcp6c/lib/netifd/proto/dhcpv6.sh
 -rwxrwxrwx 1 dzw dzw 4902 Jan 21  2023 ./package/network/ipv6/odhcp6c/files/dhcpv6.sh
 -rwxr-xr-x 1 dzw dzw 4902 Oct 29 20:38 ./staging_dir/target-mipsel_24kc_musl/root-ramips/lib/netifd/proto/dhcpv6.sh
+
+2023-04-27 20:29:53: 执行启动延时 60 秒后再启动!
+2023-04-27 20:31:00: 清空并关闭相关程序和缓存完成。
+2023-04-27 20:31:01: iptables透明代理基础依赖 iptables-mod-socket 未安装...
+2023-04-27 20:31:01: iptables透明代理基础依赖 iptables-mod-iprange 未安装...
+2023-04-27 20:31:01: iptables透明代理基础依赖 iptables-mod-conntrack-extra 未安装...
+2023-04-27 20:31:02: 运行完成！
