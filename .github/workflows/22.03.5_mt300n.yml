@@ -26,7 +26,7 @@ env:
   REPO_BRANCH: v22.03.5
 
   FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: 22.03.5_mt300n-v2.config
+  CONFIG_FILE: 22.03.5_mt300n-v2_passwall.config
   DIY_SH_P1: diy-part1.sh
   DIY_SH_P2: diy-part2.sh
   UPLOAD_BIN_DIR: false
@@ -82,7 +82,7 @@ jobs:
         cd openwrt
         ./scripts/feeds install -a
         ./scripts/feeds uninstall xray-core && ./scripts/feeds install -p passwall_packages xray-core
-        rm -rf feeds/packages/lang/golang 
+        rm -rf feeds/packages/lang/golang
         svn export https://github.com/openwrt/packages/branches/openwrt-23.05/lang/golang feeds/packages/lang/golang
 
     - name: Load custom configuration
