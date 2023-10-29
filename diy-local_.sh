@@ -58,3 +58,35 @@ make -j8 || make -j1 V=s
 #          0x760000-0xa0000=  7077888/1024  =6912k     mk 7552k
 
 # 300n 0xfb0000-0x50000= 16121856/1024= 15744k      mk 16064k
+
+
+dhcp.sh 没有执行权限导致 "Unsupported protocol type" wan "DHCP Client"不显示
+
+ls -l build_dir/target-mipsel_24kc_musl/netifd-2022-08-25-76d2d41b/.pkgdir/netifd/lib/netifd/proto/dhcp.sh
+ls -l build_dir/target-mipsel_24kc_musl/root-ramips/lib/netifd/proto/dhcp.sh
+ls -l build_dir/target-mipsel_24kc_musl/root.orig-ramips/lib/netifd/proto/dhcp.sh
+ls -l package/network/config/netifd/files/lib/netifd/proto/dhcp.sh
+ls -l staging_dir/target-mipsel_24kc_musl/root-ramips/lib/netifd/proto/dhcp.sh
+
+find . -type f -name *.sh -exec ls -l {} \;
+find . -type f -name *.sh -exec chmod a=rwx {} \;
+
+find . -type dhcp.sh -exec ls -l {} \;
+find . -name dhcp.sh
+
+
+root@OpenWrt:/lib# chmod +x /lib/netifd/proto/*.sh
+
+
+dzw@dzw-PC:~/build_openwrt/openwrt$ find . -name dhcp.sh -exec ls -l {} \;
+-rw-r--r-- 1 dzw dzw 2875 Apr  3  2023 ./build_dir/target-mipsel_24kc_musl/root.orig-ramips/lib/netifd/proto/dhcp.sh
+-rw-r--r-- 1 dzw dzw 2875 Apr 28  2023 ./build_dir/target-mipsel_24kc_musl/root-ramips/lib/netifd/proto/dhcp.sh
+-rwxr-xr-x 1 dzw dzw 2875 Oct 22 21:03 ./build_dir/target-mipsel_24kc_musl/netifd-2022-08-25-76d2d41b/.pkgdir/netifd/lib/netifd/proto/dhcp.sh
+-rwxr-xr-x 1 dzw dzw 2875 Oct 22 21:03 ./package/network/config/netifd/files/lib/netifd/proto/dhcp.sh
+-rwxr-xr-x 1 dzw dzw 2875 Oct 22 21:03 ./staging_dir/target-mipsel_24kc_musl/root-ramips/lib/netifd/proto/dhcp.sh
+dzw@dzw-PC:~/build_openwrt/openwrt$ find . -name dhcpv6.sh -exec ls -l {} \;
+-rwxr-xr-x 1 dzw dzw 4902 Aug 18  2022 ./build_dir/target-mipsel_24kc_musl/root.orig-ramips/lib/netifd/proto/dhcpv6.sh
+-rwxr-xr-x 1 dzw dzw 4902 Apr 28  2023 ./build_dir/target-mipsel_24kc_musl/root-ramips/lib/netifd/proto/dhcpv6.sh
+-rwxr-xr-x 1 dzw dzw 4902 Oct 29 20:38 ./build_dir/target-mipsel_24kc_musl/odhcp6c-2022-08-05-7d21e8d8/.pkgdir/odhcp6c/lib/netifd/proto/dhcpv6.sh
+-rwxrwxrwx 1 dzw dzw 4902 Jan 21  2023 ./package/network/ipv6/odhcp6c/files/dhcpv6.sh
+-rwxr-xr-x 1 dzw dzw 4902 Oct 29 20:38 ./staging_dir/target-mipsel_24kc_musl/root-ramips/lib/netifd/proto/dhcpv6.sh
