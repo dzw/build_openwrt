@@ -47,6 +47,8 @@ make menuconfig
 make defconfig
 make download -j8
 
+# git config --global --add safe.directory /home/dzw/build_openwrt/openwrt
+
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 make -j8 || make -j1 V=s
 
