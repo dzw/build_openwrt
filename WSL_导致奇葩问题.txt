@@ -14,7 +14,9 @@ find . -type dhcp.sh -exec ls -l {} \;
 find . -name dhcp.sh
 
 
-root@OpenWrt:/lib# chmod +x /lib/netifd/proto/*.sh
+root@OpenWrt:/lib# 
+chmod +x /lib/netifd/proto/*.sh
+find /lib -name *.sh -exec chmod +x {} \;
 find /lib -name *.sh -exec ls -l {} \;
 
 
