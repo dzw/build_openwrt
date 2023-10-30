@@ -34,6 +34,7 @@ rm -rf feeds/packages/lang/golang
 svn export https://github.com/openwrt/packages/branches/openwrt-23.05/lang/golang feeds/packages/lang/golang
 # svn export https://github.com/openwrt/packages/branches/openwrt-22.03/lang/golang feeds/packages/lang/golang
 
+wget https://downloads.openwrt.org/releases/22.03.5/targets/ramips/mt76x8/config.buildinfo -O .config
 CONFIG_FILE=22.03.5_mt300n-v2.config
 CONFIG_FILE=22.03.5_psg1218.config
 CONFIG_FILE=22.03.5_k2_224x5.config
