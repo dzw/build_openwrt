@@ -80,7 +80,7 @@ echo "src-git passwall          https://github.com/xiaorouji/openwrt-passwall.gi
 
 # [ShadowSocksR Plus+] 顯示菜單
 sed -i "/helloworld/d" "feeds.conf.default"
-echo "src-git helloworld        https://github.com/fw876/helloworld.git"                         >> "feeds.conf.default"
+echo "src-git helloworld        https://github.com/fw876/helloworld.git^a33d777e866e537a72472d8b90ebbb1cb434c746"                         >> "feeds.conf.default"
 
 # root@OpenWrt:~# opkg install xray-core
 # Installing xray-core (1.8.3-1) to root...
@@ -118,14 +118,17 @@ git clone --depth 1 https://github.com/jerrykuku/luci-theme-argon.git package/le
 chmod +x ./scripts/feeds
 
 ./scripts/feeds update -a
+./scripts/feeds install -a
 
 # For OpenWrt 21.02 or lower version
 # You have to manually upgrade Golang toolchain to 1.19 or higher to compile Xray-core.
 rm -rf feeds/packages/lang/golang 
 # svn export https://github.com/openwrt/packages/branches/openwrt-22.03/lang/golang feeds/packages/lang/golang
-svn export https://github.com/openwrt/packages/branches/openwrt-23.05/lang/golang feeds/packages/lang/golang
+# svn export https://github.com/openwrt/packages/branches/openwrt-23.05/lang/golang feeds/packages/lang/golang
+git clone https://github.com/sbwml/packages_lang_golang -b 20.x feeds/packages/lang/golang
 
-./scripts/feeds install -a
+
+
 
 
 # set FORCE_UNSAFE_CONFIGURE=1

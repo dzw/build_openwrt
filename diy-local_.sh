@@ -1,4 +1,5 @@
 GITHUB_WORKSPACE=~/build_openwrt
+REPO_BRANCH=v22.03.5
 
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
@@ -6,14 +7,15 @@ git -C $GITHUB_WORKSPACE/openwrt checkout -b $REPO_BRANCH
 
 # $GITHUB_WORKSPACE/diy-part1.sh
 
-# # [Pass Wall] 顯示菜單
-# # WARNING: Makefile 'package/feeds/passwall_packages/sing-box/Makefile' has a dependency on 'kmod-inet-diag', which does not exist
-# echo "src-git passwall_packages https://github.com/xiaorouji/openwrt-passwall-packages.git;main" >> "feeds.conf.default"
-# echo "src-git passwall          https://github.com/xiaorouji/openwrt-passwall.git;main"          >> "feeds.conf.default"
+# [Pass Wall] 顯示菜單
+# WARNING: Makefile 'package/feeds/passwall_packages/sing-box/Makefile' has a dependency on 'kmod-inet-diag', which does not exist
+echo "src-git passwall_packages https://github.com/xiaorouji/openwrt-passwall-packages.git;main" >> "feeds.conf.default"
+echo "src-git passwall          https://github.com/xiaorouji/openwrt-passwall.git;main"          >> "feeds.conf.default"
 
-# # [ShadowSocksR Plus+] 顯示菜單
-# sed -i "/helloworld/d" "feeds.conf.default"
-# echo "src-git helloworld        https://github.com/fw876/helloworld.git"                         >> "feeds.conf.default"
+# [ShadowSocksR Plus+] 顯示菜單
+sed -i "/helloworld/d" "feeds.conf.default"  #mosdns 導致胞體太大
+echo "src-git helloworld        https://github.com/fw876/helloworld.git^a33d777e866e537a72472d8b90ebbb1cb434c746" >> "feeds.conf.default"
+./scripts/feeds update hellowrld
 
 ./scripts/feeds update -a
 
@@ -21,23 +23,24 @@ git -C $GITHUB_WORKSPACE/openwrt checkout -b $REPO_BRANCH
 
 # rm -rf ./package/feeds/packages/xray-core
 
-./scripts/feeds uninstall xray-core && ./scripts/feeds install -p passwall_packages xray-core
+./scripts/feeds uninstall xray-core 
+./scripts/feeds install -p passwall_packages xray-core
 
 # ls ./package/feeds/passwall_packages/xray-core -l
 ## ./package/feeds/passwall_packages/xray-core -> ../../../feeds/passwall_packages/xray-core
 # make  ./package/feeds/passwall_packages/xray-core/compile
 
-
 # ls ./package/feeds/packages/xray-core
 
 rm -rf feeds/packages/lang/golang 
-svn export https://github.com/openwrt/packages/branches/openwrt-23.05/lang/golang feeds/packages/lang/golang
 # svn export https://github.com/openwrt/packages/branches/openwrt-22.03/lang/golang feeds/packages/lang/golang
+# svn export https://github.com/openwrt/packages/branches/openwrt-23.05/lang/golang feeds/packages/lang/golang
+git clone https://github.com/sbwml/packages_lang_golang -b 20.x feeds/packages/lang/golang
 
-wget https://downloads.openwrt.org/releases/22.03.5/targets/ramips/mt76x8/config.buildinfo -O .config
+# wget https://downloads.openwrt.org/releases/22.03.5/targets/ramips/mt76x8/config.buildinfo -O .config
 CONFIG_FILE=22.03.5_mt300n-v2.config
-CONFIG_FILE=22.03.5_psg1218.config
-CONFIG_FILE=22.03.5_k2_224x5.config
+CONFIG_FILE=22.03.5_k2_224x5_def.config
+CONFIG_FILE=22.03.5_k2_224x5_ssrp.config
 [ -e ../$CONFIG_FILE ] && cp ../$CONFIG_FILE ./.config
 
 
