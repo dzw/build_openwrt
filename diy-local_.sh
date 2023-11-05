@@ -14,7 +14,11 @@ echo "src-git passwall          https://github.com/xiaorouji/openwrt-passwall.gi
 
 # [ShadowSocksR Plus+] 顯示菜單
 sed -i "/helloworld/d" "feeds.conf.default"  #mosdns 導致胞體太大
-echo "src-git helloworld        https://github.com/fw876/helloworld.git^a33d777e866e537a72472d8b90ebbb1cb434c746" >> "feeds.conf.default"
+# v2ray-core: update to 5.10.0
+echo "src-git helloworld        https://github.com/dzw/ssrp.git^a33d777e866e537a72472d8b90ebbb1cb434c746" >> "feeds.conf.default"
+# hysteria: update to 2.1.1
+# echo "src-git helloworld        https://github.com/dzw/ssrp.git^cbaf9ad7cdcf55ff2d54c12ef4ea218e3e36f225" >> "feeds.conf.default"
+
 ./scripts/feeds update hellowrld
 
 ./scripts/feeds update -a
@@ -39,10 +43,17 @@ git clone https://github.com/sbwml/packages_lang_golang -b 20.x feeds/packages/l
 
 # wget https://downloads.openwrt.org/releases/22.03.5/targets/ramips/mt76x8/config.buildinfo -O .config
 CONFIG_FILE=22.03.5_mt300n-v2.config
-CONFIG_FILE=22.03.5_k2_224x5_def.config
+
 CONFIG_FILE=22.03.5_k2_224x5_ssrp.config
+
+CONFIG_FILE=22.03.5_k2_224x5_passwall.config
+
+CONFIG_FILE=22.03.5_k2_224x5_def.config
+
+CONFIG_FILE=config.buildinfo_mt7620_23.05.0
 [ -e ../$CONFIG_FILE ] && cp ../$CONFIG_FILE ./.config
 
+git apply $GITHUB_WORKSPACE/patches/$REPO_BRANCH.diff
 
 # $GITHUB_WORKSPACE/diy-part2.sh
 make menuconfig

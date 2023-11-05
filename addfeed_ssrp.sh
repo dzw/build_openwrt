@@ -5,4 +5,4 @@
 
 #[ShadowSocksR Plus+] 菜單標題
 sed -i "/helloworld/d" "feeds.conf.default"
-echo "src-git helloworld        https://github.com/fw876/helloworld.git^a33d777e866e537a72472d8b90ebbb1cb434c746"                         >> "feeds.conf.default"
+echo "src-git helloworld        https://github.com/dzw/ssrp.git^a33d777e866e537a72472d8b90ebbb1cb434c746"                         >> "feeds.conf.default"

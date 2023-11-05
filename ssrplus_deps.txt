@@ -1,5 +1,5 @@
 [ShadowSocksR Plus+]
-https://github.com/fw876/helloworld.git
+https://github.com/dzw/ssrp.git
 
 [Pass Wall]
 https://github.com/xiaorouji/openwrt-passwall.git
