@@ -7,11 +7,6 @@ git -C $GITHUB_WORKSPACE/openwrt checkout -b $REPO_BRANCH
 
 # $GITHUB_WORKSPACE/diy-part1.sh
 
-# [Pass Wall] 顯示菜單
-# WARNING: Makefile 'package/feeds/passwall_packages/sing-box/Makefile' has a dependency on 'kmod-inet-diag', which does not exist
-echo "src-git passwall_packages https://github.com/xiaorouji/openwrt-passwall-packages.git;main" >> "feeds.conf.default"
-echo "src-git passwall          https://github.com/xiaorouji/openwrt-passwall.git;main"          >> "feeds.conf.default"
-
 # [ShadowSocksR Plus+] 顯示菜單
 sed -i "/helloworld/d" "feeds.conf.default"  #mosdns 導致胞體太大
 # v2ray-core: update to 5.10.0
@@ -21,6 +16,13 @@ echo "src-git helloworld        https://github.com/dzw/ssrp.git^a33d777e866e537a
 
 ./scripts/feeds update hellowrld
 # ./scripts/feeds uninstall helloworld
+
+
+# [Pass Wall] 顯示菜單
+# WARNING: Makefile 'package/feeds/passwall_packages/sing-box/Makefile' has a dependency on 'kmod-inet-diag', which does not exist
+echo "src-git passwall_packages https://github.com/xiaorouji/openwrt-passwall-packages.git;main" >> "feeds.conf.default"
+echo "src-git passwall          https://github.com/xiaorouji/openwrt-passwall.git;main"          >> "feeds.conf.default"
+
 
 ./scripts/feeds update -a
 
@@ -43,19 +45,15 @@ rm -rf feeds/packages/lang/golang
 git clone https://github.com/sbwml/packages_lang_golang -b 20.x feeds/packages/lang/golang
 
 # wget https://downloads.openwrt.org/releases/22.03.5/targets/ramips/mt76x8/config.buildinfo -O .config
-CONFIG_FILE=22.03.5_mt300n-v2.config
-
-CONFIG_FILE=22.03.5_k2_224x5_ssrp.config
-
-CONFIG_FILE=22.03.5_k2_224x5_passwall.config
-
-CONFIG_FILE=22.03.5_k2_224x5_def.config
-
-CONFIG_FILE=config.buildinfo_mt7620_23.05.0
-[ -e ../$CONFIG_FILE ] && cp ../$CONFIG_FILE ./.config
 
 git apply $GITHUB_WORKSPACE/patches/$REPO_BRANCH.diff
 
+CONFIG_FILE=22.03.5_mt300n-v2.config
+CONFIG_FILE=22.03.5_k2_224x5_ssrp.config
+CONFIG_FILE=22.03.5_k2_224x5_passwall.config
+CONFIG_FILE=22.03.5_k2_224x5_def.config
+CONFIG_FILE=config.buildinfo_mt7620_23.05.0
+[ -e ../$CONFIG_FILE ] && cp ../$CONFIG_FILE ./.config
 # $GITHUB_WORKSPACE/diy-part2.sh
 make menuconfig
 
