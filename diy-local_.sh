@@ -1,5 +1,5 @@
 GITHUB_WORKSPACE=~/build_openwrt
-REPO_BRANCH=v22.03.5
+REPO_BRANCH=v23.05.0
 
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
@@ -20,6 +20,7 @@ echo "src-git helloworld        https://github.com/dzw/ssrp.git^a33d777e866e537a
 # echo "src-git helloworld        https://github.com/dzw/ssrp.git^cbaf9ad7cdcf55ff2d54c12ef4ea218e3e36f225" >> "feeds.conf.default"
 
 ./scripts/feeds update hellowrld
+# ./scripts/feeds uninstall helloworld
 
 ./scripts/feeds update -a
 
@@ -59,11 +60,10 @@ git apply $GITHUB_WORKSPACE/patches/$REPO_BRANCH.diff
 make menuconfig
 
 make defconfig
-make download -j8
-
-# git config --global --add safe.directory /home/dzw/build_openwrt/openwrt
 
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+make download -j8
+# git config --global --add safe.directory /home/dzw/build_openwrt/openwrt
 make -j8 || make -j1 V=s
 
 
