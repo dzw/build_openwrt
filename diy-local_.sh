@@ -16,6 +16,7 @@ echo "src-git helloworld        https://github.com/dzw/ssrp.git^a33d777e866e537a
 
 ./scripts/feeds update hellowrld
 # ./scripts/feeds uninstall helloworld
+./scripts/feeds install hellowrld  #單獨安裝避免重新編譯
 
 
 # [Pass Wall] 顯示菜單
@@ -26,7 +27,7 @@ echo "src-git passwall          https://github.com/xiaorouji/openwrt-passwall.gi
 
 ./scripts/feeds update -a
 
-./scripts/feeds install -a
+./scripts/feeds install -a   #導致重新編譯
 
 # rm -rf ./package/feeds/packages/xray-core
 
