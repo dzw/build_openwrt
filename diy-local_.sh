@@ -47,7 +47,7 @@ rm -rf feeds/packages/lang/golang
 git clone https://github.com/sbwml/packages_lang_golang -b 20.x feeds/packages/lang/golang
 
 # wget https://downloads.openwrt.org/releases/22.03.5/targets/ramips/mt76x8/config.buildinfo -O .config
-# wget https://downloads.openwrt.org/releases/22.03.5/targets/ramips/mt7621/config.buildinfo -O config.buildinfo_mt7621_23.05.0
+# wget https://downloads.openwrt.org/releases/22.03.5/targets/ramips/mt7621/config.buildinfo -O config.buildinfo_mt7621_22.03.5
 
 git apply $GITHUB_WORKSPACE/patches/$REPO_BRANCH.diff
 # $GITHUB_WORKSPACE/diy-part2.sh
@@ -57,7 +57,7 @@ CONFIG_FILE=22.03.5_k2_224x5_ssrp.config
 CONFIG_FILE=22.03.5_k2_224x5_passwall.config
 CONFIG_FILE=22.03.5_k2_224x5_def.config
 CONFIG_FILE=config.buildinfo_mt7620_23.05.0
-CONFIG_FILE=config.buildinfo_mt7621_23.05.0
+CONFIG_FILE=config.buildinfo_mt7621_22.03.5
 [ -e ../$CONFIG_FILE ] && cp ../$CONFIG_FILE ./.config
 make menuconfig
 
