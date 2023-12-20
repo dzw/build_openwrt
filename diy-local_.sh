@@ -14,11 +14,6 @@ echo "src-git helloworld        https://github.com/dzw/ssrp.git^a33d777e866e537a
 # hysteria: update to 2.1.1
 # echo "src-git helloworld        https://github.com/dzw/ssrp.git^cbaf9ad7cdcf55ff2d54c12ef4ea218e3e36f225" >> "feeds.conf.default"
 
-./scripts/feeds update hellowrld
-# ./scripts/feeds uninstall helloworld
-./scripts/feeds install hellowrld  #單獨安裝避免重新編譯
-
-
 # [Pass Wall] 顯示菜單
 # WARNING: Makefile 'package/feeds/passwall_packages/sing-box/Makefile' has a dependency on 'kmod-inet-diag', which does not exist
 echo "src-git passwall_packages https://github.com/xiaorouji/openwrt-passwall-packages.git;main" >> "feeds.conf.default"
@@ -26,9 +21,15 @@ echo "src-git passwall          https://github.com/xiaorouji/openwrt-passwall.gi
 
 
 ./scripts/feeds update -a
+./scripts/feeds install -a                #導致重新編譯
 
-./scripts/feeds install -a   #導致重新編譯
+./scripts/feeds update hellowrld
 
+./scripts/feeds install passwall_packages #單獨安裝避免重新編譯
+./scripts/feeds install passwall          #單獨安裝避免重新編譯
+./scripts/feeds install hellowrld         #單獨安裝避免重新編譯
+
+# ./scripts/feeds uninstall helloworld
 # rm -rf ./package/feeds/packages/xray-core
 
 ./scripts/feeds uninstall xray-core 
@@ -46,16 +47,18 @@ rm -rf feeds/packages/lang/golang
 git clone https://github.com/sbwml/packages_lang_golang -b 20.x feeds/packages/lang/golang
 
 # wget https://downloads.openwrt.org/releases/22.03.5/targets/ramips/mt76x8/config.buildinfo -O .config
+# wget https://downloads.openwrt.org/releases/22.03.5/targets/ramips/mt7621/config.buildinfo -O config.buildinfo_mt7621_23.05.0
 
 git apply $GITHUB_WORKSPACE/patches/$REPO_BRANCH.diff
+# $GITHUB_WORKSPACE/diy-part2.sh
 
 CONFIG_FILE=22.03.5_mt300n-v2.config
 CONFIG_FILE=22.03.5_k2_224x5_ssrp.config
 CONFIG_FILE=22.03.5_k2_224x5_passwall.config
 CONFIG_FILE=22.03.5_k2_224x5_def.config
 CONFIG_FILE=config.buildinfo_mt7620_23.05.0
+CONFIG_FILE=config.buildinfo_mt7621_23.05.0
 [ -e ../$CONFIG_FILE ] && cp ../$CONFIG_FILE ./.config
-# $GITHUB_WORKSPACE/diy-part2.sh
 make menuconfig
 
 make defconfig
