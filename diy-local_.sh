@@ -8,9 +8,11 @@ git -C $GITHUB_WORKSPACE/openwrt checkout -b $REPO_BRANCH
 # $GITHUB_WORKSPACE/diy-part1.sh
 
 # [ShadowSocksR Plus+] 顯示菜單
-sed -i "/helloworld/d" "feeds.conf.default"  #mosdns 導致胞體太大
+
 # v2ray-core: update to 5.10.0
+sed -i "/helloworld/d" "feeds.conf.default"  #mosdns 導致胞體太大
 echo "src-git helloworld        https://github.com/dzw/ssrp.git^a33d777e866e537a72472d8b90ebbb1cb434c746" >> "feeds.conf.default"
+
 # hysteria: update to 2.1.1
 # echo "src-git helloworld        https://github.com/dzw/ssrp.git^cbaf9ad7cdcf55ff2d54c12ef4ea218e3e36f225" >> "feeds.conf.default"
 
@@ -32,6 +34,9 @@ echo "src-git passwall          https://github.com/xiaorouji/openwrt-passwall.gi
 # ./scripts/feeds uninstall helloworld
 # rm -rf ./package/feeds/packages/xray-core
 
+./scripts/feeds uninstall passwall
+./scripts/feeds uninstall passwall_packages
+
 ./scripts/feeds uninstall xray-core 
 ./scripts/feeds install -p passwall_packages xray-core
 
@@ -47,7 +52,7 @@ rm -rf feeds/packages/lang/golang
 git clone https://github.com/sbwml/packages_lang_golang -b 20.x feeds/packages/lang/golang
 
 # wget https://downloads.openwrt.org/releases/22.03.5/targets/ramips/mt76x8/config.buildinfo -O .config
-# wget https://downloads.openwrt.org/releases/22.03.5/targets/ramips/mt7621/config.buildinfo -O config.buildinfo_mt7621_22.03.5
+# wget https://downloads.openwrt.org/releases/22.03.6/targets/ramips/mt7621/config.buildinfo -O .config
 
 git apply $GITHUB_WORKSPACE/patches/$REPO_BRANCH.diff
 # $GITHUB_WORKSPACE/diy-part2.sh
