@@ -7,12 +7,6 @@ git -C $GITHUB_WORKSPACE/openwrt checkout -b $REPO_BRANCH
 
 # $GITHUB_WORKSPACE/diy-part1.sh
 
-# [ShadowSocksR Plus+] 顯示菜單
-
-# v2ray-core: update to 5.10.0
-sed -i "/helloworld/d" "feeds.conf.default"  #mosdns 導致胞體太大
-echo "src-git helloworld        https://github.com/dzw/ssrp.git^a33d777e866e537a72472d8b90ebbb1cb434c746" >> "feeds.conf.default"
-
 # hysteria: update to 2.1.1
 # echo "src-git helloworld        https://github.com/dzw/ssrp.git^cbaf9ad7cdcf55ff2d54c12ef4ea218e3e36f225" >> "feeds.conf.default"
 
@@ -22,8 +16,14 @@ echo "src-git passwall_packages https://github.com/xiaorouji/openwrt-passwall-pa
 echo "src-git passwall          https://github.com/xiaorouji/openwrt-passwall.git;main"          >> "feeds.conf.default"
 
 
-./scripts/feeds update -a
-./scripts/feeds install -a                #導致重新編譯
+        # [ShadowSocksR Plus+] 顯示菜單
+
+        # v2ray-core: update to 5.10.0
+        sed -i "/helloworld/d" "feeds.conf.default"  #mosdns 導致胞體太大
+        echo "src-git helloworld        https://github.com/dzw/ssrp.git^a33d777e866e537a72472d8b90ebbb1cb434c746" >> "feeds.conf.default"
+
+        ./scripts/feeds update -a
+        ./scripts/feeds install -a                #導致重新編譯
 
 ./scripts/feeds update hellowrld
 
@@ -64,6 +64,22 @@ CONFIG_FILE=22.03.5_k2_224x5_def.config
 CONFIG_FILE=config.buildinfo_mt7620_23.05.0
 CONFIG_FILE=config.buildinfo_mt7621_22.03.5
 [ -e ../$CONFIG_FILE ] && cp ../$CONFIG_FILE ./.config
+
+
+git checkout tags/v22.03.6 -b v22.03.6
+git branch -d v22.03.6
+git branch -D v22.03.6
+git branch -m v22.03.6_ 22.03.6
+git status
+
+# Collected errors:
+#  * check_data_file_clashes: Package px5g-wolfssl wants to install file /home/dzw/build_openwrt/openwrt/build_dir/target-mipsel_24kc_musl/root-ramips/usr/sbin/px5g
+#         But that file is already provided by package  * px5g-mbedtls
+#  * opkg_install_cmd: Cannot install package px5g-wolfssl.
+# px5g-wolfssl
+# px5g-mbedtls
+
+
 make menuconfig
 
 make defconfig
@@ -71,6 +87,8 @@ make defconfig
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 make download -j8
 # git config --global --add safe.directory /home/dzw/build_openwrt/openwrt
+
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 make -j8 || make -j1 V=s
 
 
