@@ -5,6 +5,14 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 git -C $GITHUB_WORKSPACE/openwrt checkout -b $REPO_BRANCH
 
+
+
+git checkout tags/v22.03.6 -b v22.03.6
+git branch -d v22.03.6
+git branch -D v22.03.6
+git branch -m v22.03.6_ 22.03.6
+git status
+
 # $GITHUB_WORKSPACE/diy-part1.sh
 
 # hysteria: update to 2.1.1
@@ -22,6 +30,7 @@ echo "src-git passwall          https://github.com/xiaorouji/openwrt-passwall.gi
         sed -i "/helloworld/d" "feeds.conf.default"  #mosdns 導致胞體太大
         echo "src-git helloworld        https://github.com/dzw/ssrp.git^a33d777e866e537a72472d8b90ebbb1cb434c746" >> "feeds.conf.default"
 
+export https_proxy=http://192.168.123.111:10809
         ./scripts/feeds update -a
         ./scripts/feeds install -a                #導致重新編譯
 
@@ -65,12 +74,6 @@ CONFIG_FILE=config.buildinfo_mt7620_23.05.0
 CONFIG_FILE=config.buildinfo_mt7621_22.03.5
 [ -e ../$CONFIG_FILE ] && cp ../$CONFIG_FILE ./.config
 
-
-git checkout tags/v22.03.6 -b v22.03.6
-git branch -d v22.03.6
-git branch -D v22.03.6
-git branch -m v22.03.6_ 22.03.6
-git status
 
 # Collected errors:
 #  * check_data_file_clashes: Package px5g-wolfssl wants to install file /home/dzw/build_openwrt/openwrt/build_dir/target-mipsel_24kc_musl/root-ramips/usr/sbin/px5g
