@@ -30,7 +30,7 @@ echo "src-git passwall          https://github.com/xiaorouji/openwrt-passwall.gi
         sed -i "/helloworld/d" "feeds.conf.default"  #mosdns 導致胞體太大
         echo "src-git helloworld        https://github.com/dzw/ssrp.git^a33d777e866e537a72472d8b90ebbb1cb434c746" >> "feeds.conf.default"
 
-export https_proxy=http://192.168.123.111:10809
+export https_proxy=http://192.168.1.235:10809
         ./scripts/feeds update -a
         ./scripts/feeds install -a                #導致重新編譯
 
