@@ -1,31 +1,8 @@
 #!/bin/bash
-#
-# Copyright (c) 2019-2020 P3TERX <https://p3terx.com>
-#
-# This is free software, licensed under the MIT License.
-# See /LICENSE for more information.
-#
-# https://github.com/P3TERX/Actions-OpenWrt
-# File name: diy-part1.sh
-# Description: OpenWrt DIY script part 1 (Before Update feeds)
-#
 
-# Uncomment a feed source
-#sed -i 's/^#\(.*helloworld\)/\1/' feeds.conf.default
+# [Pass Wall] 菜單標題
 
-# Add a feed source
-
-# #[ShadowSocksR Plus+] 菜單標題
-# sed -i "/helloworld/d" "feeds.conf.default"
-# echo "src-git helloworld        https://github.com/dzw/ssrp.git"                         >> "feeds.conf.default"
-
-
-echo "src-git passwall          https://github.com/xiaorouji/openwrt-passwall.git;main"          >> "feeds.conf.default"
+sed -i "/passwall_packages/d" "feeds.conf.default"
+sed -i "/passwall_luci/d" "feeds.conf.default"
 echo "src-git passwall_packages https://github.com/xiaorouji/openwrt-passwall-packages.git;main" >> "feeds.conf.default"
-
-# sed -i '$a src-git kenzo https://github.com/kenzok8/openwrt-packages' feeds.conf.default
-# sed -i '$a src-git small https://github.com/kenzok8/small' feeds.conf.default
-# git pull
-
-# mkdir dl
-# git clone –depth 1 git@gitee.com:kwill/openwrt-dependent-dl.git dl
+echo "src-git passwall_luci https://github.com/xiaorouji/openwrt-passwall.git;main" >> "feeds.conf.default"
