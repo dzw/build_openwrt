@@ -15,16 +15,27 @@
 
 # Add a feed source
 
-# #[ShadowSocksR Plus+] 菜單標題 
-# sed -i "/helloworld/d" "feeds.conf.default"
-# echo "src-git helloworld        https://github.com/dzw/ssrp.git^a33d777e866e537a72472d8b90ebbb1cb434c746"                         >> "feeds.conf.default"
-
 # #[Pass Wall] 菜單標題 
-echo "src-git passwall          https://github.com/xiaorouji/openwrt-passwall.git;main"          >> "feeds.conf.default"
-echo "src-git passwall_packages https://github.com/xiaorouji/openwrt-passwall-packages.git;main" >> "feeds.conf.default"
+# WARNING: Makefile 'package/feeds/passwall_packages/sing-box/Makefile' has a dependency on 'kmod-inet-diag', which does not exist
 
-# sed -i '$a src-git kenzo https://github.com/kenzok8/openwrt-packages' feeds.conf.default
-# sed -i '$a src-git small https://github.com/kenzok8/small' feeds.conf.default
+echo "src-git passwall_packages \ 
+ https://github.com/xiaorouji/openwrt-passwall-packages.git;main" \
+ >> "feeds.conf.default"
+
+echo "src-git passwall_luci          \ 
+ https://github.com/xiaorouji/openwrt-passwall.git;main"         \
+ >> "feeds.conf.default"
+
+# [ShadowSocksR Plus+] 顯示菜單
+sed -i "/helloworld/d" "feeds.conf.default"
+echo "src-git helloworld        \ 
+ https://github.com/fw876/helloworld.git^a33d777e866e537a72472d8b90ebbb1cb434c746" \
+ >> "feeds.conf.default"
+
+#[Hello World] 顯示菜單 節點導入失敗
+# WARNING: Makefile 'package/lean/luci-app-vssr/Makefile' has a dependency on 'pdnsd-alt', which does not exist
+# git clone --depth 1 https://github.com/jerrykuku/luci-app-vssr.git    package/lean/luci-app-vssr
+# git clone --depth 1 https://github.com/jerrykuku/lua-maxminddb.git    package/lean/lua-maxminddb
 # git pull
 
 # mkdir dl

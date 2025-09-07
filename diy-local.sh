@@ -1,10 +1,17 @@
 #!/bin/bash
+GITHUB_WORKSPACE=/home/dzw/build_openwrt/
+
+# OPENWRT_ROOT=$GITHUB_WORKSPACE/lede
+OPENWRT_ROOT=$GITHUB_WORKSPACE/openwrt
+
+# REPO_URL=https://github.com/coolsnowwolf/lede
+# REPO_URL=https://git.nju.edu.cn/nju/openwrt.git
+REPO_URL=https://github.com/openwrt/openwrt.git
+
 
 # 由于 WSL 的 PATH 中包含带有空格的 Windows 路径，有可能会导致编译失败，请在 make 前面加上：
 # find: The relative path 'Files/WindowsApps/MicrosoftCorporationII.WindowsSubsystemForLinux_1.2.5.0_x64__8wekyb3d8bbwe' is included in the PATH environment variable, which is insecure in combination with the -execdir action of find.  Please remove that entry from $PATH
-PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/snap/bin
-
 
 # 一行一个写入 script/localmirrors
 # 以分号隔开, CONFIG_LOCALMIRROR=URI 写入 .config
@@ -20,14 +27,7 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/us
 # 执行make download(在最终make之前下载所有的依赖文件，并且使多核编译可用）
 # 执行make V=s（编译OpenWrt并且在控制台打印日志，你可以看到你在哪失败了)
 
-GITHUB_WORKSPACE=/home/dzw/build_openwrt/
-
 sudo apt install ncurses-dev pkg-config
-
-REPO_URL=https://github.com/coolsnowwolf/lede
-REPO_URL=https://github.com/openwrt/openwrt.git
-REPO_URL=https://git.nju.edu.cn/nju/openwrt.git
-REPO_BRANCH=openwrt-21.02
 
 FEEDS_CONF=feeds.conf.default
 CONFIG_FILE=adslr_g7.config
@@ -40,47 +40,34 @@ UPLOAD_WETRANSFER=false
 UPLOAD_RELEASE=false
 
 #v21.02.7 WARNING: Makefile 'package/feeds/passwall_packages/sing-box/Makefile' has a dependency on 'kmod-inet-diag', which does not exist
-
 # git clone https://gitee.com/mybsd/openwrt.git    --depth 1 -b v22.03.5 openwrt
 # echo git clone https://github.com/openwrt/openwrt.git --depth 1 -b openwrt-22.03 openwrt
-
 # git clone https://gitee.com/mybsd/openwrt.git --depth 1 -b openwrt-21.02 openwrt
 # git clone https://git.nju.edu.cn/nju/openwrt.git --depth 1 -b openwrt-21.02 openwrt
 # git clone https://git.nju.edu.cn/nju/openwrt.git --depth 1 -b v21.02.7 openwrt
 
+REPO_BRANCH=v24.10.2
+if [ ! -d $GITHUB_WORKSPACE/openwrt ]; then
+    echo "clone openwrt"
+    git clone $REPO_URL --depth 1 -b $REPO_BRANCH openwrt
+else
+    echo "openwrt already exists"
+    git -C $OPENWRT_ROOT checkout $REPO_BRANCH
+fi
 
-git clone $REPO_URL --depth 1 -b $REPO_BRANCH openwrt
-        # ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
-        # git -C /workdir/openwrt checkout -b $REPO_BRANCH
-
-OPENWRT_ROOT=$GITHUB_WORKSPACE/openwrt
-OPENWRT_ROOT=$GITHUB_WORKSPACE/lede
-
-cd $OPENWRT_ROOT
-mv build_dir /mnt/e/openwrt/
-mv bin       /mnt/e/openwrt/
-
+# mv build_dir /mnt/e/openwrt/
+# mv bin       /mnt/e/openwrt/
 # mkdir /mnt/e/openwrt/
 # mv dl /mnt/e/openwrt/
 # ln -s /mnt/e/openwrt/dl         dl
+# ln -s /mnt/e/openwrt/bin/       bin
+# ln -s /mnt/e/openwrt/build_dir/ build_dir
+# git clone git@gitee.com:kwill/openwrt-dependent-dl.git dl
 
-ln -s /mnt/e/openwrt/bin/       bin
-ln -s /mnt/e/openwrt/build_dir/ build_dir
-
-git clone git@gitee.com:kwill/openwrt-dependent-dl.git dl
-
-# sed -i s#git.openwrt.org/feed/packages#gitee.com/mybsd/openwrt-packages#g feeds.conf.default
-# sed -i s#git.openwrt.org/project/luci#gitee.com/mybsd/openwrt-luci#g feeds.conf.default
-# sed -i s#git.openwrt.org/feed/routing#gitee.com/mybsd/openwrt-routing#g feeds.conf.default
-
-# [Pass Wall] 顯示菜單
-# WARNING: Makefile 'package/feeds/passwall_packages/sing-box/Makefile' has a dependency on 'kmod-inet-diag', which does not exist
-echo "src-git passwall_packages https://github.com/xiaorouji/openwrt-passwall-packages.git;main" >> "feeds.conf.default"
-echo "src-git passwall          https://github.com/xiaorouji/openwrt-passwall.git;main"          >> "feeds.conf.default"
-
-# [ShadowSocksR Plus+] 顯示菜單
-sed -i "/helloworld/d" "feeds.conf.default"
-echo "src-git helloworld        https://github.com/fw876/helloworld.git^a33d777e866e537a72472d8b90ebbb1cb434c746"                         >> "feeds.conf.default"
+cd $OPENWRT_ROOT
+# bash "$DIY_SH_P1"
+bash $GITHUB_WORKSPACE/addfeed_passwall.sh
+bash $GITHUB_WORKSPACE/addfeed_ssrp.sh
 
 # root@OpenWrt:~# opkg install xray-core
 # Installing xray-core (1.8.3-1) to root...
@@ -95,29 +82,28 @@ echo "src-git helloworld        https://github.com/fw876/helloworld.git^a33d777e
 
 cd $OPENWRT_ROOT
 
-git apply ../patches/v22.03.5.diff
-git apply $GITHUB_WORKSPACE/patches/*.diff
+# git apply ../patches/v22.03.5.diff
+# git apply $GITHUB_WORKSPACE/patches/*.diff
 # git apply $GITHUB_WORKSPACE/patches/*.ldiff
 
 git clone --depth 1 https://github.com/jerrykuku/luci-theme-argon.git package/lean/luci-theme-argon
 
-#[Hello World] 顯示菜單 節點導入失敗
-# WARNING: Makefile 'package/lean/luci-app-vssr/Makefile' has a dependency on 'pdnsd-alt', which does not exist
-# git clone --depth 1 https://github.com/jerrykuku/luci-app-vssr.git    package/lean/luci-app-vssr
-# git clone --depth 1 https://github.com/jerrykuku/lua-maxminddb.git    package/lean/lua-maxminddb
-
 # ./scripts/feeds update helloworld
-# ./scripts/feeds update passwall
+# ./scripts/feeds update passwall_luci
 # ./scripts/feeds update passwall_packages
 
 # ./scripts/feeds install -a -f -p helloworld
 # ./scripts/feeds install -a -p helloworld
-# ./scripts/feeds install -a -p passwall
+# ./scripts/feeds install -a -p passwall_luci
 # ./scripts/feeds install -a -p passwall_packages
 
 chmod +x ./scripts/feeds
 
-./scripts/feeds update -a
+# ./scripts/feeds uninstall helloworld
+# ./scripts/feeds uninstall passwall_luci
+# ./scripts/feeds uninstall passwall_packages
+
+./scripts/feeds update  -a
 ./scripts/feeds install -a
 
 # For OpenWrt 21.02 or lower version
@@ -142,7 +128,7 @@ make -j1 V=s
 # \\wsl.localhost\Ubuntu-18.04/\home\dzw\build_openwrt\openwrt\build_dir\target-mipsel_24kc_musl\v2ray-plugin-5.8.0\.go_work\build\src
 
 find dl -size -1024c -exec ls -l {} \;
-make -j$(nproc) || make -j1 || make -j1 V=s
+make -j$(nproc) || make -j1 || make -j1 V=sc
 
 # sudo rsync -avh --remove-source-files --ignore-existing --progress \
 # /mnt/e/openwrt/build_openwrt/ \

@@ -1,5 +1,5 @@
 GITHUB_WORKSPACE=~/build_openwrt
-REPO_BRANCH=v23.05.0
+REPO_BRANCH=v24.10.2
 
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
@@ -15,36 +15,40 @@ git status
 
 # $GITHUB_WORKSPACE/diy-part1.sh
 
-# hysteria: update to 2.1.1
-# echo "src-git helloworld        https://github.com/dzw/ssrp.git^cbaf9ad7cdcf55ff2d54c12ef4ea218e3e36f225" >> "feeds.conf.default"
+
 
 # [Pass Wall] 顯示菜單
 # WARNING: Makefile 'package/feeds/passwall_packages/sing-box/Makefile' has a dependency on 'kmod-inet-diag', which does not exist
 echo "src-git passwall_packages https://github.com/xiaorouji/openwrt-passwall-packages.git;main" >> "feeds.conf.default"
-echo "src-git passwall          https://github.com/xiaorouji/openwrt-passwall.git;main"          >> "feeds.conf.default"
+echo "src-git passwall_luci     https://github.com/xiaorouji/openwrt-passwall.git;main"          >> "feeds.conf.default"
 
+# [ShadowSocksR Plus+] 顯示菜單
 
-        # [ShadowSocksR Plus+] 顯示菜單
-
-        # v2ray-core: update to 5.10.0
-        sed -i "/helloworld/d" "feeds.conf.default"  #mosdns 導致胞體太大
-        echo "src-git helloworld        https://github.com/dzw/ssrp.git^a33d777e866e537a72472d8b90ebbb1cb434c746" >> "feeds.conf.default"
+# v2ray-core: update to 5.10.0
+sed -i "/helloworld/d" "feeds.conf.default"  #mosdns 導致胞體太大
+echo "src-git helloworld        https://github.com/dzw/ssrp.git^a33d777e866e537a72472d8b90ebbb1cb434c746" >> "feeds.conf.default"
+# hysteria: update to 2.1.1
+# echo "src-git helloworld        https://github.com/dzw/ssrp.git^cbaf9ad7cdcf55ff2d54c12ef4ea218e3e36f225" >> "feeds.conf.default"
 
 export https_proxy=http://192.168.1.235:10809
-        ./scripts/feeds update -a
-        ./scripts/feeds install -a                #導致重新編譯
+./scripts/feeds update  -a
+./scripts/feeds install -a                #導致重新編譯
 
 ./scripts/feeds update hellowrld
 
+./scripts/feeds update passwall_packages
+./scripts/feeds update passwall_luci
+
 ./scripts/feeds install passwall_packages #單獨安裝避免重新編譯
-./scripts/feeds install passwall          #單獨安裝避免重新編譯
+./scripts/feeds install passwall_luci     #單獨安裝避免重新編譯
 ./scripts/feeds install hellowrld         #單獨安裝避免重新編譯
 
 # ./scripts/feeds uninstall helloworld
 # rm -rf ./package/feeds/packages/xray-core
 
-./scripts/feeds uninstall passwall
+./scripts/feeds uninstall passwall_luci
 ./scripts/feeds uninstall passwall_packages
+./scripts/feeds uninstall hellowrld
 
 ./scripts/feeds uninstall xray-core 
 ./scripts/feeds install -p passwall_packages xray-core
