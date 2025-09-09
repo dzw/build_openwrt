@@ -103,6 +103,9 @@ chmod +x ./scripts/feeds
 # ./scripts/feeds uninstall passwall_luci
 # ./scripts/feeds uninstall passwall_packages
 
+git config --global http.https://git.openwrt.org.proxy  http://192.168.124.160:10808
+git config --global http.https://github.com.proxy       http://192.168.124.160:10808
+
 ./scripts/feeds update  -a
 ./scripts/feeds install -a
 
@@ -114,8 +117,16 @@ rm -rf feeds/packages/lang/golang
 git clone https://github.com/sbwml/packages_lang_golang -b 20.x feeds/packages/lang/golang
 
 
-# set FORCE_UNSAFE_CONFIGURE=1
 
+# CMake 3.31 or higher is required. You are running version 3.30.5
+tar -xzf cmake-3.31.8.tar.gz
+cd cmake-3.31.8 
+./bootstrap --prefix=/usr/local  # Or your preferred prefix
+make -j$(nproc)
+sudo make install
+
+
+# set FORCE_UNSAFE_CONFIGURE=1
 cd $OPENWRT_ROOT
 rm -rf tmp
 # make defconfig
@@ -128,6 +139,8 @@ make -j1 V=s
 # \\wsl.localhost\Ubuntu-18.04/\home\dzw\build_openwrt\openwrt\build_dir\target-mipsel_24kc_musl\v2ray-plugin-5.8.0\.go_work\build\src
 
 find dl -size -1024c -exec ls -l {} \;
+
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/snap/bin
 make -j$(nproc) || make -j1 || make -j1 V=sc
 
 # sudo rsync -avh --remove-source-files --ignore-existing --progress \
