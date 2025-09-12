@@ -27,7 +27,23 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/us
 # 执行make download(在最终make之前下载所有的依赖文件，并且使多核编译可用）
 # 执行make V=s（编译OpenWrt并且在控制台打印日志，你可以看到你在哪失败了)
 
-sudo apt install ncurses-dev pkg-config
+sudo apt update
+sudo apt install -y ncurses-dev pkg-config
+# sudo apt install -y build-essential bzip2 ccache curl ecj fastjar file flex g++ gawk gettext git gperf libbz2-dev libffi-dev 
+# libreadline-dev libsqlite3-dev libssl-dev libtool patch 
+# rsync subversion tk-dev unzip wget xz-utils zlib1g-dev 
+
+bison build-essential file flex g++ gawk gcc gettext libncursesw5 libssl-dev make python3 python3-dev python3-distutils python3-pip python3-setuptools python3-stdlib python3-venv python3-wheel unzip wget zlib1g-dev 
+
+sudo apt-get install build-essential ccache ncurses-dev zlib1g-dev gawk libssl-dev git subversion unzip python3
+sudo apt install gcc-8 g++-8 gcc-9 g++-9 build-essential
+sudo apt install swig python3-dev
+
+sudo apt install zstd
+
+
+sudo apt install -y  g++ python3
+
 
 FEEDS_CONF=feeds.conf.default
 CONFIG_FILE=adslr_g7.config
@@ -46,12 +62,17 @@ UPLOAD_RELEASE=false
 # git clone https://git.nju.edu.cn/nju/openwrt.git --depth 1 -b openwrt-21.02 openwrt
 # git clone https://git.nju.edu.cn/nju/openwrt.git --depth 1 -b v21.02.7 openwrt
 
+git config --global http.https://git.openwrt.org.proxy  http://192.168.124.160:10808
+git config --global http.https://github.com.proxy       http://192.168.124.160:10808
+
 REPO_BRANCH=v24.10.2
 if [ ! -d $GITHUB_WORKSPACE/openwrt ]; then
     echo "clone openwrt"
     git clone $REPO_URL --depth 1 -b $REPO_BRANCH openwrt
 else
     echo "openwrt already exists"
+    git -C $OPENWRT_ROOT fetch --tags
+    git -C $OPENWRT_ROOT reset --hard
     git -C $OPENWRT_ROOT checkout $REPO_BRANCH
 fi
 
@@ -64,9 +85,15 @@ fi
 # ln -s /mnt/e/openwrt/build_dir/ build_dir
 # git clone git@gitee.com:kwill/openwrt-dependent-dl.git dl
 
+
 cd $OPENWRT_ROOT
+export https_proxy=http://192.168.123.111:10808
+wget https://downloads.openwrt.org/releases/24.10.2/targets/mediatek/filogic/config.buildinfo -O $OPENWRT_ROOT/.config
+wget https://downloads.openwrt.org/releases/24.10.2/targets/mediatek/filogic/feeds.buildinfo  -O $OPENWRT_ROOT/feeds.conf.default
+unset http_proxy
+
 # bash "$DIY_SH_P1"
-bash $GITHUB_WORKSPACE/addfeed_passwall.sh
+# bash $GITHUB_WORKSPACE/addfeed_passwall.sh
 bash $GITHUB_WORKSPACE/addfeed_ssrp.sh
 
 # root@OpenWrt:~# opkg install xray-core
@@ -80,41 +107,34 @@ bash $GITHUB_WORKSPACE/addfeed_ssrp.sh
 # ./feeds/passwall_packages/shadowsocks-rust
 # ./package/feeds/helloworld/shadowsocks-rust
 
-cd $OPENWRT_ROOT
 
 # git apply ../patches/v22.03.5.diff
 # git apply $GITHUB_WORKSPACE/patches/*.diff
 # git apply $GITHUB_WORKSPACE/patches/*.ldiff
 
-git clone --depth 1 https://github.com/jerrykuku/luci-theme-argon.git package/lean/luci-theme-argon
+# git clone --depth 1 https://github.com/jerrykuku/luci-theme-argon.git package/lean/luci-theme-argon
 
 # ./scripts/feeds update helloworld
 # ./scripts/feeds update passwall_luci
 # ./scripts/feeds update passwall_packages
-
 # ./scripts/feeds install -a -f -p helloworld
 # ./scripts/feeds install -a -p helloworld
 # ./scripts/feeds install -a -p passwall_luci
 # ./scripts/feeds install -a -p passwall_packages
-
-chmod +x ./scripts/feeds
-
+# chmod +x ./scripts/feeds
 # ./scripts/feeds uninstall helloworld
 # ./scripts/feeds uninstall passwall_luci
 # ./scripts/feeds uninstall passwall_packages
-
-git config --global http.https://git.openwrt.org.proxy  http://192.168.124.160:10808
-git config --global http.https://github.com.proxy       http://192.168.124.160:10808
-
 ./scripts/feeds update  -a
 ./scripts/feeds install -a
 
-# For OpenWrt 21.02 or lower version
-# You have to manually upgrade Golang toolchain to 1.19 or higher to compile Xray-core.
-rm -rf feeds/packages/lang/golang 
-# svn export https://github.com/openwrt/packages/branches/openwrt-22.03/lang/golang feeds/packages/lang/golang
-# svn export https://github.com/openwrt/packages/branches/openwrt-23.05/lang/golang feeds/packages/lang/golang
-git clone https://github.com/sbwml/packages_lang_golang -b 20.x feeds/packages/lang/golang
+
+# # For OpenWrt 21.02 or lower version
+# # You have to manually upgrade Golang toolchain to 1.19 or higher to compile Xray-core.
+# rm -rf feeds/packages/lang/golang 
+# # svn export https://github.com/openwrt/packages/branches/openwrt-22.03/lang/golang feeds/packages/lang/golang
+# # svn export https://github.com/openwrt/packages/branches/openwrt-23.05/lang/golang feeds/packages/lang/golang
+# git clone https://github.com/sbwml/packages_lang_golang -b 20.x feeds/packages/lang/golang
 
 
 
@@ -131,7 +151,11 @@ cd $OPENWRT_ROOT
 rm -rf tmp
 # make defconfig
 make menuconfig
-make download -j8
+
+export https_proxy=http://192.168.123.111:10808
+# make download -j8
+make download -j1 V=s
+unset http_proxy
 
 make -j1 V=s
 
