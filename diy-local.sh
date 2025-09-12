@@ -167,6 +167,15 @@ find dl -size -1024c -exec ls -l {} \;
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/snap/bin
 make -j$(nproc) || make -j1 || make -j1 V=sc
 
+
+#find . -type f -name '*[Mm]akefile*' -exec grep -l -E -- '(-lpcre|libpcre)' {} +
+
+#sed libpcre/libpcre2  package\feeds\helloworld\shadowsocksr-libev\Makefile 
+
+# find . -name "Makefile*" -exec grep -l "bb40f027fef8534b0f905a827dbc3cc613fd06b705392148a12b80e1f9570a88" {} \;
+
+
+
 # sudo rsync -avh --remove-source-files --ignore-existing --progress \
 # /mnt/e/openwrt/build_openwrt/ \
 #  /build_openwrt/
